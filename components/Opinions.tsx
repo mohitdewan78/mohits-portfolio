@@ -7,7 +7,7 @@ export function Opinions() {
         <h2 className="font-display text-3xl sm:text-4xl tracking-tight">
           How I think about AI
         </h2>
-        <p className="text-ink-muted text-sm italic font-display">
+        <p className="text-ink-muted text-base italic font-display">
           Five stances, no hedging.
         </p>
       </div>

@@ -4,7 +4,7 @@ export function CoffeeChatCard() {
   return (
     <section className="my-20">
       <div className="border hairline bg-paper/40 px-8 py-10 sm:px-12 sm:py-14 max-w-3xl mx-auto relative">
-        <span className="absolute -top-3 left-8 bg-paper px-3 font-display italic text-sm text-terracotta">
+        <span className="absolute -top-4 left-8 bg-paper px-3 font-display italic text-xl text-terracotta">
           ☕ Coffee chat
         </span>
         <h2 className="font-display text-3xl sm:text-4xl tracking-tight">

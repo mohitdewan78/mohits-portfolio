@@ -15,7 +15,7 @@ export const site = {
   // Contact placeholders — site is not a job pitch, but real humans still email.
   email: "mohitdewan.dce@gmail.com",
   linkedin: "https://www.linkedin.com/in/mohitdewan/",
-  github: "https://github.com/mohitdewan",
+  github: "https://github.com/mohitdewan78",
   url: "https://build-ai-with-mohit.vercel.app",
 
   aiByline: "Built with Claude Code",

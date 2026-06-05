@@ -8,7 +8,7 @@ export default function Home() {
     <div className="mx-auto max-w-5xl px-6">
       {/* Block 1 — Hero */}
       <section className="pt-24 pb-20 sm:pt-32 sm:pb-24">
-        <p className="font-display italic text-ink-muted mb-6 text-sm">
+        <p className="font-display italic text-ink-muted mb-6 text-base">
           Field notes from building with AI
         </p>
         <h1 className="font-display text-4xl sm:text-6xl leading-[1.05] tracking-tight max-w-4xl">
@@ -20,22 +20,16 @@ export default function Home() {
         <div className="mt-10 flex flex-wrap gap-4">
           <Link
             href="/work"
-            className="inline-flex items-center px-5 py-3 bg-ink text-paper text-sm tracking-wide hover:bg-terracotta transition-colors"
+            className="inline-flex items-center px-5 py-3 bg-ink text-paper text-sm tracking-wide hover:bg-terracotta transition-colors rounded-md"
           >
             View work
           </Link>
           <Link
             href="/learn"
-            className="inline-flex items-center px-5 py-3 border hairline text-sm tracking-wide hover:bg-ink hover:text-paper transition-colors"
+            className="inline-flex items-center px-5 py-3 bg-ink text-paper text-sm tracking-wide hover:bg-terracotta transition-colors rounded-md"
           >
-            Start the trail
+            Start learning
           </Link>
-          <a
-            href={`mailto:${site.email}`}
-            className="inline-flex items-center px-5 py-3 text-sm tracking-wide text-ink-soft hover:text-terracotta transition-colors"
-          >
-            Email me
-          </a>
         </div>
       </section>
 
