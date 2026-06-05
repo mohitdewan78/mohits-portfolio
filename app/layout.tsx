@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   description:
     "Personal site of Mohit Dewan — case studies of personal AI projects and a trail anyone can follow to start their own. For builders, PMs, and curious tinkerers.",
-  metadataBase: new URL("https://projectforge-beige.vercel.app"),
+  metadataBase: new URL("https://build-ai-with-mohit.vercel.app"),
 };
 
 export default function RootLayout({
