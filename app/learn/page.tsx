@@ -1,16 +1,28 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { trailTiers, trailIntro } from "@/lib/site";
+import { stage1Modules, type Level } from "@/lib/learn";
+import { PreferenceBar } from "@/components/PreferenceBar";
+import { StageProgress } from "@/components/StageProgress";
+import { StageRecommendedBadge } from "@/components/RecommendedBadge";
+import { ResetProgress } from "@/components/ResetProgress";
 
 export const metadata: Metadata = {
   title: "Learn",
   description: trailIntro,
 };
 
+// Stage 1 has full modules; Stages 2 & 3 are placeholders for now.
+const stageModuleIds: Record<string, string[]> = {
+  "stage-1": stage1Modules.map((m) => m.id),
+  "stage-2": [],
+  "stage-3": [],
+};
+
 export default function LearnHub() {
   return (
     <div className="mx-auto max-w-3xl px-6 pt-24 pb-20">
-      <header className="mb-16">
+      <header className="mb-12">
         <p className="font-display italic text-ink-muted mb-4 text-sm">
           The playbook
         </p>
@@ -22,14 +34,17 @@ export default function LearnHub() {
         </p>
       </header>
 
+      <PreferenceBar />
+
       <ol className="space-y-10">
         {trailTiers.map((tier, i) => {
           const isLive = tier.status === "live";
           const stageNumber = String(i + 1).padStart(2, "0");
+          const moduleIds = stageModuleIds[tier.id] ?? [];
 
           const inner = (
             <>
-              <div className="flex items-baseline gap-6 mb-3">
+              <div className="flex items-baseline gap-6 mb-3 flex-wrap">
                 <span className="font-display text-2xl sm:text-3xl text-terracotta tabular-nums shrink-0">
                   {stageNumber}
                 </span>
@@ -41,15 +56,25 @@ export default function LearnHub() {
                     {tier.title}
                   </h2>
                 </div>
-                {!isLive && (
-                  <span className="text-xs uppercase tracking-wider text-ink-muted border hairline px-2 py-0.5 shrink-0">
-                    In progress
-                  </span>
-                )}
+                <div className="flex items-center gap-2 shrink-0">
+                  <StageRecommendedBadge
+                    stageLevel={tier.recommendedLevel as Level}
+                  />
+                  {!isLive && (
+                    <span className="text-xs uppercase tracking-wider text-ink-muted border hairline px-2 py-0.5">
+                      In progress
+                    </span>
+                  )}
+                </div>
               </div>
               <p className="text-ink-soft leading-relaxed ml-0 sm:ml-[3.5rem]">
                 {tier.blurb}
               </p>
+              {moduleIds.length > 0 && (
+                <div className="ml-0 sm:ml-[3.5rem] mt-3">
+                  <StageProgress moduleIds={moduleIds} variant="inline" />
+                </div>
+              )}
             </>
           );
 
@@ -66,6 +91,10 @@ export default function LearnHub() {
           );
         })}
       </ol>
+
+      <div className="mt-16 pt-8 border-t hairline">
+        <ResetProgress />
+      </div>
     </div>
   );
 }

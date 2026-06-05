@@ -3,6 +3,24 @@
 // Stage 1 ships fully written. Stages 2 & 3 are gated as "in progress"
 // on /learn until they're written; only Stage 1 has a detail page in MVP.
 
+// Visitor self-identification used to personalize recommendations.
+// Level maps to which *stage* is highlighted as primary.
+// Persona maps to which *modules within a stage* are highlighted.
+export type Level = "beginner" | "intermediate" | "advanced";
+export type Persona = "engineer" | "ai-pm" | "curious";
+
+export const LEVELS: ReadonlyArray<{ id: Level; label: string; blurb: string }> = [
+  { id: "beginner", label: "Beginner", blurb: "New to AI products" },
+  { id: "intermediate", label: "Intermediate", blurb: "Shipped a few things" },
+  { id: "advanced", label: "Advanced", blurb: "Building agents at depth" },
+];
+
+export const PERSONAS: ReadonlyArray<{ id: Persona; label: string; blurb: string }> = [
+  { id: "engineer", label: "Engineer", blurb: "I want to build it myself" },
+  { id: "ai-pm", label: "AI PM", blurb: "I lead AI products / teams" },
+  { id: "curious", label: "Curious learner", blurb: "Just exploring" },
+];
+
 export type ResourceFormat =
   | "course"
   | "video"
@@ -25,6 +43,8 @@ export type Module = {
   id: string;
   title: string;
   note: string; // 1-2 paragraphs in Mohit's voice — authored take, not first-person learner
+  /** Which personas this module is most useful for. */
+  personas: Persona[];
   resources: Resource[];
   linkedProject?: {
     slug: string;
@@ -39,6 +59,7 @@ export const stage1Modules: Module[] = [
   {
     id: "01-mental-models",
     title: "Mental models for AI, ML, and LLMs",
+    personas: ["engineer", "ai-pm", "curious"],
     note: "Before you touch a prompt, get a working vocabulary. AI is the broad field. Machine learning is one approach inside it. LLMs are one kind of ML model — they predict the next token given previous tokens, and that's it. Everything else (RAG, agents, tool use, evals) is engineering scaffolding around that single primitive. The biggest mistake first-time builders make is treating the model like a person who can reason — it can't, but it can recognize patterns from its training data well enough to fake reasoning convincingly on the things it has seen before. The fastest way to develop intuition is to call the API yourself with deliberately weird inputs and watch what breaks.",
     resources: [
       {
@@ -73,6 +94,7 @@ export const stage1Modules: Module[] = [
   {
     id: "02-model-landscape",
     title: "The model landscape and build-vs-buy",
+    personas: ["ai-pm", "engineer"],
     note: "There are three useful axes when picking a model: capability (does it solve the task?), cost (per million tokens, in + out), and latency (p50, p95). Almost every personal project decision collapses to this triangle. For 90% of side-project tasks, a small/cheap model (Haiku, GPT-4o-mini, Llama via Groq) is the right answer — speed and cost matter more than the last 5% of capability. The exception is anything where the model has to reason across many pieces of context at once — that's where the frontier models earn their keep. Build-vs-buy for personal projects is mostly a non-question: buy the API, build the product around it. You're not training a foundation model on the weekend.",
     resources: [
       {
@@ -98,6 +120,7 @@ export const stage1Modules: Module[] = [
   {
     id: "03-prompting-hands-on",
     title: "Prompting, hands-on",
+    personas: ["engineer", "curious"],
     note: "Don't read about prompting — write one and run it. Open the Anthropic console or the OpenAI playground, paste in a task you actually care about, and iterate. Three things become obvious in the first hour that no blog post can teach: how much context the model needs to be useful, how brittle prompts are to phrasing, and how often the model will confidently produce nonsense if you don't give it an out. The mental shift you're after is from \"writing instructions for a person\" to \"writing instructions for a confident pattern-matcher that will not ask you to clarify.\" Once that lands, your prompts get specific fast.",
     resources: [
       {
@@ -136,6 +159,7 @@ export const stage1Modules: Module[] = [
   {
     id: "04-why-ai-products-are-different",
     title: "Why AI products are different from regular software",
+    personas: ["ai-pm", "engineer"],
     note: "Regular software is deterministic — same input, same output, every time. AI products are probabilistic — same input, different output, sometimes wildly. That single fact reshapes every product decision around it. Specs become acceptance ranges, not pass/fail. Tests become statistical evals, not unit checks. Failure modes are confident hallucinations, not crashes. The bar for \"good enough to ship\" is no longer a passing CI run; it's a golden eval set the change beats. If you've only built deterministic software before, this is the mental flip that takes the longest — and the one that most senior engineers underestimate.",
     resources: [
       {
@@ -165,6 +189,7 @@ export const stage1Modules: Module[] = [
   {
     id: "05-spotting-good-use-cases",
     title: "Spotting use cases worth chasing",
+    personas: ["ai-pm", "curious"],
     note: "Most ideas that sound like AI projects aren't. The honest test: is the task one where a confident-pattern-matcher (the model) plus a small amount of state-keeping (your code) would help me with something I actually do weekly? If yes, ship the smallest version. If no, you're chasing a demo, not a product. The places I've found AI genuinely useful in personal projects are: triage (filtering a firehose of inputs), structured extraction (turning messy text into clean rows), and the boring parts of a workflow (cataloging, labeling, summarizing). The places I've found it unhelpful are: anything requiring counted-out math, anything where correctness must be 100%, and anything where the user expects the same answer twice.",
     resources: [
       {
@@ -194,6 +219,7 @@ export const stage1Modules: Module[] = [
   {
     id: "06-data-literacy",
     title: "Data literacy for AI builders",
+    personas: ["engineer", "ai-pm"],
     note: "Every AI product is really a data product. The model is the cheap, replaceable part — your data and your evals are the moat. Before you ship anything, build a small golden set: 10-30 examples of inputs paired with the output you'd want. That set becomes your spec, your regression test, and your reference for every prompt change. Don't worry about format — a spreadsheet is fine. The discipline is in *opening it before* every change you make. Skip this step and you'll ship vibes; do it and you'll ship something you can actually trust.",
     resources: [
       {

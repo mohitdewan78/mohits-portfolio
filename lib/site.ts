@@ -114,6 +114,7 @@ export const trailTiers = [
     blurb:
       "The vocabulary, the limits, and the use cases worth chasing. What I wish someone had told me before I touched my first prompt.",
     status: "live",
+    recommendedLevel: "beginner",
   },
   {
     id: "stage-2",
@@ -122,6 +123,7 @@ export const trailTiers = [
     blurb:
       "How to take an AI idea from a fuzzy thought to something running on your laptop — without the feature creep that kills most side projects.",
     status: "in-progress",
+    recommendedLevel: "intermediate",
   },
   {
     id: "stage-3",
@@ -130,6 +132,7 @@ export const trailTiers = [
     blurb:
       "The patterns and tradeoffs you'll bump into once your project gets ambitious — and a capstone where you actually build something agentic.",
     status: "in-progress",
+    recommendedLevel: "advanced",
   },
 ] as const;
 
