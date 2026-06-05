@@ -1,9 +1,11 @@
 import type { MDXComponents } from "mdx/types";
+import { Mermaid } from "@/components/Mermaid";
 
 export function useMDXComponents(
   components: MDXComponents,
 ): MDXComponents {
   return {
+    Mermaid,
     h1: ({ children }) => (
       <h1 className="font-display text-4xl sm:text-5xl tracking-tight mt-12 mb-6">
         {children}

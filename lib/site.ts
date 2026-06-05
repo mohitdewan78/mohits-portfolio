@@ -89,11 +89,11 @@ export const selectedWork: ReadonlyArray<{
   },
   {
     slug: "job-dashboard",
-    title: "AI Job-Search Dashboard",
+    title: "Job Radar",
     hook: "Most roles never hit the major boards — but the ATS APIs do.",
     outcome:
-      "Found that the best ATS data comes from the platforms nobody scrapes. Scoring against my resume turned a firehose into a curated handful of high-fit roles.",
-    tags: ["RAG", "Pipelines", "Evals"],
+      "A twice-weekly pipeline that scrapes Greenhouse and Ashby, scores listings against role-specific resumes via Claude, and serves the high-fit batch to a mobile dashboard.",
+    tags: ["Pipelines", "LLM-as-judge", "Prompt caching"],
   },
   {
     slug: "forge",
