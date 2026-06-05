@@ -1,63 +1,88 @@
 export const meta = {
   slug: "astrophotography",
-  title: "Astrophotography + Claude",
-  hook: "The model is best at the boring parts of the workflow — the parts that make the creative parts possible.",
+  title: "Astrophotography Vlog · with Claude in the loop",
+  hook: "If you have to publish every month, every step has to be a workflow — not a feeling.",
   oneLine:
-    "Claude as co-pilot across capture planning, pipeline processing, and identification — letting the actual photography stay human.",
-  tags: ["Vision", "Pipelines", "Creative tools"],
-  status: "live",
+    "A monthly deep-sky vlog series — one object per month, captured with a Dwarf 3, processed in a free-tool stack, edited in DaVinci Resolve, with Claude Code handling the boring parts that would otherwise kill the cadence.",
+  tags: ["Vlog production", "Pipelines", "Claude Code"],
+  status: "in-progress",
   order: 4,
   links: {
-    // TODO: Mohit — dedicated astrophotography site, YouTube, Instagram
-    // external: "https://...",
+    // TODO: Mohit — add YouTube channel, Instagram, Substack URLs when episode 1 ships
   },
 };
 
 ## Hook
 
-Astrophotography sounds romantic. In practice it&apos;s ninety percent admin: checking moon phase, weather windows, framing targets, calibrating exposures, stacking frames, annotating objects, cataloging shots. The actual *photographing* is a five-minute decision sandwiched between hours of logistics. AI is uncannily good at the admin. Letting it do that leaves the creative decisions where they belong.
+I&apos;ve done astrophotography on and off for a while. The part I always struggled with wasn&apos;t the photography — it was *consistency*. Every shot turned into a one-off project: re-figure out the processing steps, re-research the object, re-build the edit. A friend pointed out the obvious — if I wanted to actually *finish* shots regularly, I needed to publish on a schedule, and that meant the workflow had to be a workflow, not a feeling. So I committed: one object per month, twelve months minimum, every step documented and published as a vlog. Claude is in the loop on the parts that would otherwise stall me.
 
 ## Why I built it
 
-I&apos;d been doing astrophotography for a while and noticed how much of my time disappeared into scheduling and post-processing. I didn&apos;t want to automate the photography itself — that&apos;s the part I do this for. But everything around it? Fair game. The interesting question was: which parts does the model actually help with, and which parts are worse with it?
+Two reasons. The obvious one: I wanted to actually finish astrophotography projects instead of accumulating half-processed FITS files. The deeper one: I&apos;d been reading about Depth Anything V2, Depthflow, and AI-assisted creative workflows, and astrophotography is a beautifully constrained domain to learn them in. The raw data is structured (FITS headers tell you exactly what you captured), the pipeline is well-documented, and the &quot;before/after&quot; payoff is dramatic enough to carry a video.
+
+The commitment to publish monthly is the forcing function. Without a cadence, every project becomes &quot;I&apos;ll finish it when it&apos;s perfect.&quot; With a cadence, the first episode ships mediocre on purpose — and the arc of improvement *is* the show.
 
 ## How it works
 
-Three workflow stages, each with a different relationship to the model:
+Three stages — capture, process, publish — with Claude assisting where the work is repetitive or research-heavy.
 
-```
-   ┌────────────────────┐  ┌────────────────────┐  ┌────────────────────┐
-   │  Capture planning  │  │  Pipeline          │  │  Identification &  │
-   │  (decision-heavy)  │  │  processing        │  │  cataloging        │
-   │                    │  │  (script-heavy)    │  │  (knowledge-heavy) │
-   ├────────────────────┤  ├────────────────────┤  ├────────────────────┤
-   │  • Targets by      │  │  • Stacking        │  │  • Object labels   │
-   │    season / moon   │  │  • Calibration     │  │  • Catalog cross-  │
-   │  • Framing         │  │  • Post scripts    │  │    reference       │
-   │  • Exposures       │  │                    │  │  • Library org     │
-   └────────────────────┘  └────────────────────┘  └────────────────────┘
-              │                      │                      │
-              ▼                      ▼                      ▼
-       Claude as advisor     Claude as scripter      Claude as annotator
-       (asks me questions)   (writes the code)        (does the lookup)
-```
+<Mermaid
+  chart={`flowchart TD
+    subgraph cap[" 1 · Capture "]
+      A["Dwarf 3 smart telescope<br/>Bridgeville PA · Bortle 6-7"]
+      A --> B["FITS subs<br/>30-60s · gain 60<br/>filter per target"]
+    end
 
-**Capture planning** is the part that surprised me. I expected the model to *answer* — instead the useful pattern is the model *asking* better questions than I would. "What&apos;s your bortle? How long can you image? What focal length are you running?" Constraints surface targets I&apos;d have missed.
+    subgraph proc[" 2 · Process (free-tool stack) "]
+      B --> C["Siril<br/>stack · color cal · stretch"]
+      C --> D["GraXpert<br/>gradient + AI denoise"]
+      D --> E["StarNet++<br/>star removal"]
+      E --> F["Affinity Photo<br/>masks + star recombine"]
+    end
 
-**Pipeline processing** is exactly what code-gen is for. Stacking, calibration, post-processing — boring scripts the model can write in one shot. I keep them in a folder.
+    subgraph pub[" 3 · Publish (monthly cadence) "]
+      F --> G["TIFF + JPEG master"]
+      G --> H["YouTube vlog<br/>6-8 min"]
+      G --> I["Instagram Reel<br/>15-30s before/after"]
+      G --> J["Substack post"]
+    end
 
-**Identification & cataloging** is the highest leverage. Show the model an annotated frame, get back labels, cross-references, a one-paragraph description. Cataloging that used to take an hour takes five minutes.
+    CC(["Claude Code · FITS sort,<br/>Siril scripts, depth animations,<br/>voiceover drafts, target planning"])
+    CC -.-> B
+    CC -.-> C
+    CC -.-> H
+  `}
+  caption="One target per month, end-to-end. Total budget: 2–4 hours of processing per episode, plus capture and edit."
+/>
 
-## What I learned
+**The Dwarf 3 was a deliberate choice.** A smart telescope eliminates the variable that kills most beginner astrophotography projects: setup time. Forty-five minutes of polar alignment and focus tuning per session compounds into never-shooting. The Dwarf 3 is on the patio in five minutes. That trade-off — give up some optical quality, get back the consistency — is exactly the choice I&apos;d make in a product PRD.
 
-**The model is best at the boring parts.** Where I used to procrastinate (cataloging, file organization, exposure math), the model cleared in minutes. The creative decisions — composition, target selection, when to walk away — stayed mine. That&apos;s the right split.
+**The processing stack is all free** (except Affinity, $70 one-time): Siril for stacking and color calibration, GraXpert for gradient removal and AI denoise, StarNet++ for separating stars from nebula, Affinity Photo for the final masking and recombination. There&apos;s a $300/year alternative (PixInsight + XTerminator) that&apos;s the &quot;real&quot; tool — I&apos;m using the free stack on purpose so the &quot;leveling up&quot; moment can be its own episode later.
 
-**Asking questions is a feature.** The best capture-planning conversations weren&apos;t the ones where I gave the model a target and it returned a plan. They were the ones where I described conditions and the model asked three follow-ups before suggesting anything. That sequence is something I want in every AI product I build now.
+**The pipeline always saves both starless and stars-only files.** Future episodes need them for 2.5D parallax and eventually Blender volumetric flythroughs — flattening early kills that option. Every step preserves intermediate files.
 
-**Vision models are weirder than text models.** They&apos;ll confidently misidentify a galaxy as a globular cluster. The fix isn&apos;t a better prompt — it&apos;s catalog cross-reference as a second step. Vision alone is unreliable; vision + lookup is solid.
+**Claude Code is in the loop on three things**, all concrete:
 
-**Don&apos;t automate the part you do this for.** I built tools for everything around the photography. I didn&apos;t build tools for the photography itself. That distinction kept this fun instead of feeling like work.
+1. **File automation.** Reading FITS headers (`OBJECT`, `DATE-OBS`, `FILTER`, `EXPTIME`, `GAIN`) and sorting raw dumps into the right project folders. Generating capture session logs — total integration time, frame counts per filter, conditions. Batch-renaming files to the convention. Boring but it&apos;s the difference between &quot;I&apos;ll process this weekend&quot; and never.
+2. **Siril scripting.** The same preprocessing steps run for every target. Claude turns them into reusable Siril scripts (`.ssf`) so I&apos;m not clicking through the same menus each month.
+3. **Depth pipeline (episode 3+).** Depth Anything V2 → Depthflow to turn a flat final image into a short 3D flythrough. Manual setup would mean I&apos;d skip it; Claude Code building the automation means it actually ships.
+
+The vlog format itself is also a constraint: 6–8 minutes, six sections (cold open → premise → object story → capture story → processing montage → reveal + tease). Knowing the montage will feature the &quot;galaxy emerges from black&quot; stretch moment changes how I capture the screen recording. The publication format reaches all the way back into the workflow.
+
+## What I learned (so far)
+
+I&apos;m mid-capture on episode 1 (M51, the Whirlpool Galaxy). Most of the lessons are still ahead. What&apos;s already clear from setup:
+
+**Cadence is the architecture.** &quot;Publish monthly&quot; isn&apos;t a content choice; it&apos;s the constraint that forced every other decision — smart telescope over rig, free-tool stack over PixInsight, AI automation for the repetitive parts. Without the schedule, none of those simplifications would have been obvious.
+
+**The model is best at the boring parts.** FITS sorting, Siril scripting, batch renaming, target research, voiceover drafting. The parts I&apos;d procrastinate. The creative decisions — composition, target selection, when to walk away — stay mine. That split is the right one, and it&apos;s the same split I&apos;ve found in every personal AI project: don&apos;t automate the part you do this for.
+
+**Preserve everything, flatten nothing.** I learned this the hard way on past shots — saved the &quot;final&quot; JPEG, lost the layered files, couldn&apos;t come back to them. The new convention: starless and stars-only TIFFs archived for every target, even if I&apos;m not using them this episode. The flythrough work in episode 6 depends on having that data from episode 1.
+
+**Beginner status is the show.** Episode 1 will be mediocre. I&apos;m saying that out loud on camera, because the alternative — wait until I&apos;m good — means never publishing. The arc of getting better *is* the content.
 
 ## What I&apos;d build next
 
-A capture-planning agent that looks at next week&apos;s weather, moon phase, and my equipment, and proposes three target options before I&apos;ve sat down to plan. The information is already public — the model just has to compose it. That&apos;s exactly the kind of upstream work an agent should do.
+The depth pipeline is the immediate roadmap item — episode 3 introduces Depth Anything V2 to generate a depth map from the final image, then Depthflow to render a short 3D flythrough as the cold open. Claude Code does the orchestration. After that, episodes 4–6 layer in manual 2.5D parallax in DaVinci Resolve Fusion for hero shots, and somewhere around episode 6 or season two, Blender for true volumetric flythroughs — documented as its own learning arc on camera.
+
+The bigger ambition is to turn the workflow itself into something other people could use. If a beginner with a smart telescope can ship a monthly vlog using a free stack plus Claude Code, the workflow is the artifact, not the photo.
