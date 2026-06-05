@@ -1,0 +1,63 @@
+export const meta = {
+  slug: "astrophotography",
+  title: "Astrophotography + Claude",
+  hook: "The model is best at the boring parts of the workflow — the parts that make the creative parts possible.",
+  oneLine:
+    "Claude as co-pilot across capture planning, pipeline processing, and identification — letting the actual photography stay human.",
+  tags: ["Vision", "Pipelines", "Creative tools"],
+  status: "live",
+  order: 4,
+  links: {
+    // TODO: Mohit — dedicated astrophotography site, YouTube, Instagram
+    // external: "https://...",
+  },
+};
+
+## Hook
+
+Astrophotography sounds romantic. In practice it&apos;s ninety percent admin: checking moon phase, weather windows, framing targets, calibrating exposures, stacking frames, annotating objects, cataloging shots. The actual *photographing* is a five-minute decision sandwiched between hours of logistics. AI is uncannily good at the admin. Letting it do that leaves the creative decisions where they belong.
+
+## Why I built it
+
+I&apos;d been doing astrophotography for a while and noticed how much of my time disappeared into scheduling and post-processing. I didn&apos;t want to automate the photography itself — that&apos;s the part I do this for. But everything around it? Fair game. The interesting question was: which parts does the model actually help with, and which parts are worse with it?
+
+## How it works
+
+Three workflow stages, each with a different relationship to the model:
+
+```
+   ┌────────────────────┐  ┌────────────────────┐  ┌────────────────────┐
+   │  Capture planning  │  │  Pipeline          │  │  Identification &  │
+   │  (decision-heavy)  │  │  processing        │  │  cataloging        │
+   │                    │  │  (script-heavy)    │  │  (knowledge-heavy) │
+   ├────────────────────┤  ├────────────────────┤  ├────────────────────┤
+   │  • Targets by      │  │  • Stacking        │  │  • Object labels   │
+   │    season / moon   │  │  • Calibration     │  │  • Catalog cross-  │
+   │  • Framing         │  │  • Post scripts    │  │    reference       │
+   │  • Exposures       │  │                    │  │  • Library org     │
+   └────────────────────┘  └────────────────────┘  └────────────────────┘
+              │                      │                      │
+              ▼                      ▼                      ▼
+       Claude as advisor     Claude as scripter      Claude as annotator
+       (asks me questions)   (writes the code)        (does the lookup)
+```
+
+**Capture planning** is the part that surprised me. I expected the model to *answer* — instead the useful pattern is the model *asking* better questions than I would. "What&apos;s your bortle? How long can you image? What focal length are you running?" Constraints surface targets I&apos;d have missed.
+
+**Pipeline processing** is exactly what code-gen is for. Stacking, calibration, post-processing — boring scripts the model can write in one shot. I keep them in a folder.
+
+**Identification & cataloging** is the highest leverage. Show the model an annotated frame, get back labels, cross-references, a one-paragraph description. Cataloging that used to take an hour takes five minutes.
+
+## What I learned
+
+**The model is best at the boring parts.** Where I used to procrastinate (cataloging, file organization, exposure math), the model cleared in minutes. The creative decisions — composition, target selection, when to walk away — stayed mine. That&apos;s the right split.
+
+**Asking questions is a feature.** The best capture-planning conversations weren&apos;t the ones where I gave the model a target and it returned a plan. They were the ones where I described conditions and the model asked three follow-ups before suggesting anything. That sequence is something I want in every AI product I build now.
+
+**Vision models are weirder than text models.** They&apos;ll confidently misidentify a galaxy as a globular cluster. The fix isn&apos;t a better prompt — it&apos;s catalog cross-reference as a second step. Vision alone is unreliable; vision + lookup is solid.
+
+**Don&apos;t automate the part you do this for.** I built tools for everything around the photography. I didn&apos;t build tools for the photography itself. That distinction kept this fun instead of feeling like work.
+
+## What I&apos;d build next
+
+A capture-planning agent that looks at next week&apos;s weather, moon phase, and my equipment, and proposes three target options before I&apos;ve sat down to plan. The information is already public — the model just has to compose it. That&apos;s exactly the kind of upstream work an agent should do.

@@ -1,0 +1,56 @@
+export const meta = {
+  slug: "mcp-server",
+  title: "MCP Document Tools Server",
+  hook: "If a model can read and edit your docs, the tools have to be airtight.",
+  oneLine:
+    "An end-to-end Python MCP server that lets an LLM read, search, and edit local documents — built so I could feel the tradeoffs in tool design firsthand.",
+  tags: ["MCP", "Agents", "Python"],
+  status: "live",
+  order: 1,
+  links: {
+    // TODO: Mohit — drop in real repo URL once it's public
+    // github: "https://github.com/mohitdewan/mcp-doc-tools",
+  },
+};
+
+## Hook
+
+The first time I wired a model to a real file system through MCP, the model used my "edit" tool to insert a paragraph in the middle of an unrelated section. Not because the prompt was bad — because the tool didn't tell the model what "edit" actually meant. The tool surface is the spec. I wanted to feel that.
+
+## Why I built it
+
+MCP gets talked about as a protocol problem, but the harder part is product design. *What tools* do I expose? *What inputs* do they take? *What does the model see* when the tool fails? Reading about it wasn't going to teach me — I needed to ship a real server, watch a model use it, and feel where it breaks.
+
+I picked the most boring domain on purpose: local document read/edit. No external APIs, no auth, no surprises. The interesting variable would be tool design itself.
+
+## How it works
+
+The server exposes a small surface — list, read, search, write — over the MCP stdio transport. Each tool has a Pydantic schema that doubles as the model-facing contract. I tested it through MCP Inspector before pointing a model at it, which let me iterate on the tool ergonomics without burning tokens.
+
+```
+┌─────────────┐     stdio       ┌───────────────────┐
+│   Claude    │ ◄────────────►  │   MCP Server      │
+│   (client)  │                 │   (Python)        │
+└─────────────┘                 ├───────────────────┤
+                                │  list / read /    │
+                                │  search / write   │
+                                ├───────────────────┤
+                                │  Local FS         │
+                                └───────────────────┘
+```
+
+The tools are small on purpose. "Search" returns paths plus a one-line excerpt — not full content — so the model has to decide what to read next instead of getting context dumped on it. That single decision shaped how the model used the rest of the surface.
+
+## What I learned
+
+**Tool design is the spec.** Eighty percent of the work was naming inputs, choosing return shapes, and writing the description string the model actually reads. The prompt did almost nothing once the tools were clear.
+
+**Return shape changes behavior.** Returning *paths plus excerpts* from search instead of *full content* made the model browse instead of dump. Same data, different trajectory.
+
+**Failure modes are part of the contract.** When `read` is called on a missing file, what comes back matters more than you&apos;d think. A clean error with the attempted path lets the model recover. A stack trace makes it spiral.
+
+**MCP Inspector is the eval loop.** Before any model touched the server, I could call every tool with weird inputs and watch responses. Cheaper than running real sessions, and it forced me to write the contract first.
+
+## What I&apos;d build next
+
+A second server with stateful tools — something where calling order matters and the model has to plan, not just react. The doc tools are stateless; a more interesting test is a tool surface where the model has to *commit* to a path. That&apos;s where agent design starts to matter.

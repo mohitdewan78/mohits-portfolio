@@ -1,0 +1,63 @@
+export const meta = {
+  slug: "job-dashboard",
+  title: "AI Job-Search Dashboard",
+  hook: "Most roles never hit the major boards — but the ATS APIs do.",
+  oneLine:
+    "A pipeline that scrapes less-visible ATS platforms, scores listings against my resume, and surfaces only the high-fit roles. Turned a firehose into a curated handful.",
+  tags: ["RAG", "Pipelines", "Evals"],
+  status: "live",
+  order: 2,
+  links: {
+    // TODO: Mohit — drop in real repo URL
+    // github: "https://github.com/mohitdewan/job-radar",
+  },
+};
+
+## Hook
+
+I noticed the same thing every AI PM has noticed: the best roles weren&apos;t on LinkedIn, they were on company career pages. Specifically on Ashby, Greenhouse, and Lever — ATS platforms with structured listings nobody bothers scraping at scale. The data was sitting there. I just had to go pick it up.
+
+## Why I built it
+
+Job hunting is *retrieval and ranking*. That&apos;s exactly the problem shape AI is good at — but the products in the market don&apos;t do it well because they treat every listing as equally relevant. I wanted a system that scored listings *against my actual resume*, surfacing a small list of high-fit roles per day instead of a daily fire-hose.
+
+The side benefit: building it taught me more about RAG, scoring, and prompt design than reading three books on it.
+
+## How it works
+
+Three pieces, none of them clever individually:
+
+```
+┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+│  ATS scrapers    │    │  Resume embed +  │    │  Score + filter  │
+│  (Ashby /        │───▶│  listing embed   │───▶│  + LLM-judge     │
+│   Greenhouse /   │    │  (vector match)  │    │  on top-K        │
+│   Lever)         │    │                  │    │                  │
+└──────────────────┘    └──────────────────┘    └──────────────────┘
+                                                          │
+                                                          ▼
+                                                  ┌──────────────┐
+                                                  │  Daily list  │
+                                                  │  in browser  │
+                                                  └──────────────┘
+```
+
+1. **Scrape.** Hit each ATS&apos;s public listing endpoints; normalize to a common shape (title, JD, location, company, level).
+2. **Embed.** Embed my resume once, embed every listing on first encounter, store both in a local vector store.
+3. **Score + filter.** Vector similarity narrows ~3,000 listings/day to a top 50. An LLM-judge prompt with a small rubric (level match, scope, AI relevance, stage of company) ranks those down to ~5 worth opening.
+
+The eval is a spreadsheet. I keep a golden set of 30 listings I&apos;ve manually scored *good fit* / *not fit*. Every prompt change runs against that set before I trust it.
+
+## What I learned
+
+**Retrieval beats generation, every time.** The 80% of the value came from getting the data and embedding it well. The LLM-judge is the cherry; it only earns its keep on the top 50.
+
+**An eval you actually run is worth ten you wrote and forgot.** The 30-row spreadsheet has caught more regressions than I expected. The number isn&apos;t magic — what matters is that I open it before every prompt change.
+
+**The best signal isn&apos;t the score, it&apos;s the *why*.** I had the LLM-judge return a one-sentence rationale alongside the score. Reading the rationale showed me the model was over-indexing on company size and under-indexing on scope. I rewrote the rubric. Fixed it in one shot.
+
+**Pipelines fail in boring ways.** Most of the actual bugs were in the scrapers — pagination, rate limits, schema drift on Ashby&apos;s side. The "AI part" of the AI job-search dashboard is the smallest source of bugs.
+
+## What I&apos;d build next
+
+Add an "explain why this *isn&apos;t* a fit" mode for borderline listings — sometimes the most useful answer is a sharp no with reasoning, not silence. I also want to swap the local vector store for something with proper observability so I can see which listings the embedder is confusing.

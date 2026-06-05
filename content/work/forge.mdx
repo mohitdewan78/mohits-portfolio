@@ -1,0 +1,69 @@
+export const meta = {
+  slug: "forge",
+  title: "Forge",
+  hook: "A workout plan should change when your recovery does.",
+  oneLine:
+    "A recovery-aware workout planner that composes each session from yesterday&apos;s signals, available time, equipment on hand, and where you are in a progression.",
+  tags: ["iOS", "Personalization", "Product"],
+  status: "in-progress",
+  order: 3,
+  links: {
+    // TODO: Mohit — add demo video or screenshots
+  },
+};
+
+## Hook
+
+Every fitness app I&apos;ve used does the same thing: hand you a static plan on Monday and pretend Wednesday isn&apos;t different. But Wednesday *is* different — you slept four hours, you&apos;re sore, you&apos;re running short on time, and the gym&apos;s busy. A workout plan that doesn&apos;t see Tuesday is a plan that&apos;s already wrong.
+
+## Why I built it
+
+I wanted something that planned *today&apos;s* session, not this week&apos;s. The interesting AI work isn&apos;t the workout generation itself — it&apos;s the *composition* of inputs the model needs before it generates anything: recovery signals, time budget, equipment, where you are in your current progression. Most fitness apps don&apos;t even collect that data, let alone use it.
+
+This was the project where I learned how much AI product work happens *upstream of the model*.
+
+## How it works
+
+The model is the last step. The work happens before:
+
+```
+                  ┌─────────────────────────────────┐
+                  │   Daily intake (3 questions)    │
+                  │   • Recovery (sleep / soreness) │
+                  │   • Time available              │
+                  │   • Equipment / location        │
+                  └────────────────┬────────────────┘
+                                   │
+                  ┌────────────────▼────────────────┐
+                  │   Progression state             │
+                  │   (where am I in the cycle?)    │
+                  └────────────────┬────────────────┘
+                                   │
+                  ┌────────────────▼────────────────┐
+                  │   Session generator             │
+                  │   (LLM with constrained schema) │
+                  └────────────────┬────────────────┘
+                                   │
+                  ┌────────────────▼────────────────┐
+                  │   Today&apos;s session                │
+                  │   (with swap-out options)       │
+                  └─────────────────────────────────┘
+```
+
+The generator output is a constrained schema — exercises, sets, reps, rest, swap candidates — not free text. That made the UI dead simple and meant I could regress-test outputs against a small set of known states.
+
+Built first as a React prototype to iterate fast on the planner logic. Now porting to native iOS for the recovery signal pieces that need HealthKit.
+
+## What I learned
+
+**The model is the last 10%.** The first 90% is figuring out what data the model needs before it generates. I spent more time on the intake flow than on the prompt.
+
+**Constrained output beats free text.** The session is a typed object — exercises, sets, reps. Once it&apos;s structured, swapping exercises is a UI affordance, not a re-prompt. Caching becomes possible. Comparison across sessions becomes possible.
+
+**Personalization is mostly remembering yesterday.** The interesting product moments are when today&apos;s session reacts to yesterday&apos;s data. The model doesn&apos;t need to be smart — it needs to be *informed*. Most apps don&apos;t store the right things to inform anything.
+
+**A demo for one user (me) reveals more than user research.** I used my own daily intake for a month and noticed the plan kept giving me leg day on bad-sleep days. The fix wasn&apos;t a better prompt — it was a hard rule in the schema. Real use surfaces those edges; mocks don&apos;t.
+
+## What I&apos;d build next
+
+A recovery model that learns from outcomes — did the session you got actually fit, or did you swap half of it? That feedback loop is the missing piece. Right now Forge plans well but doesn&apos;t learn from how well its plans landed. Adding that is what turns it from a planner into a coach.
