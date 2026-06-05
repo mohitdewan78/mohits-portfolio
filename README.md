@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mohit's Portfolio
 
-## Getting Started
+Personal site + AI PM learning hub. Two pillars:
 
-First, run the development server:
+- **/work** — deep case studies of personal AI projects
+- **/learn** — a focused PM → AI PM learning trail
+
+## Stack
+
+- Next.js 16 (App Router) + TypeScript
+- Tailwind CSS v4 (CSS-first tokens in `app/globals.css`)
+- MDX content via `@next/mdx`
+- Vercel Analytics + Speed Insights
+- Fraunces (display) + Hanken Grotesk (body) via `next/font`
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm build
+pnpm start
+```
 
-## Learn More
+## Project shape (planned)
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/                routes (home, /work, /work/[slug], /learn, /learn/stage-1, /about, /resume)
+components/         Nav, Footer, ProjectCard, ModuleCard, MermaidSvg…
+content/work/       case-study MDX
+content/learn/      trail-module MDX (Stage 1 live; Stages 2–3 placeholder)
+lib/                site config, MDX loaders
+public/             resume.pdf, media, icons
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Auto-deploys via Vercel on push to `main`.
