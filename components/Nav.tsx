@@ -7,7 +7,7 @@ export function Nav() {
       <div className="mx-auto max-w-5xl px-6 py-5 flex items-center justify-between">
         <Link
           href="/"
-          className="font-signature text-2xl sm:text-[28px] leading-none font-semibold text-ink hover:text-terracotta transition-colors"
+          className="font-signature text-[26px] sm:text-[30px] leading-none font-semibold text-ink hover:text-terracotta transition-colors"
         >
           {site.name}
         </Link>
