@@ -16,7 +16,6 @@ export const site = {
   email: "mohitdewan.dce@gmail.com",
   linkedin: "https://www.linkedin.com/in/mohitdewan/",
   github: "https://github.com/mohitdewan",
-  resumeHref: "/resume.pdf",
   url: "https://build-ai-with-mohit.vercel.app",
 
   aiByline: "Built with Claude Code",

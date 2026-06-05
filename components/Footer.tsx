@@ -39,14 +39,6 @@ export function Footer() {
               GitHub
             </a>
           </li>
-          <li>
-            <a
-              href={site.resumeHref}
-              className="hover:text-terracotta transition-colors"
-            >
-              Résumé
-            </a>
-          </li>
         </ul>
       </div>
     </footer>
