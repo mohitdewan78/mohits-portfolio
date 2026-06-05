@@ -9,8 +9,8 @@ export default function Home() {
     <div className="mx-auto max-w-5xl px-6">
       {/* Block 1 — Hero */}
       <section className="pt-24 pb-20 sm:pt-32 sm:pb-24">
-        <p className="font-display italic text-terracotta mb-6 text-sm tracking-widest uppercase">
-          {site.tagline}
+        <p className="font-display italic text-ink-muted mb-6 text-sm">
+          Field notes from building with AI
         </p>
         <h1 className="font-display text-4xl sm:text-6xl leading-[1.05] tracking-tight max-w-4xl">
           {site.positioningLine}

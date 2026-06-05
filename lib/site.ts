@@ -7,7 +7,7 @@ export const site = {
     "Personal AI projects, and the playbook for building your own.",
 
   positioningSub:
-    "I'm a PM who builds with AI on the side — agentic workflows, recovery-aware planners, ATS-scraping job pipelines, astrophotography processing. This site lays out what I built, why, and a trail anyone can follow to start their own.",
+    "Shipping AI is cheap. Shipping the right AI is the work — picking real problems, designing for the human first, and measuring whether the product earned its place.",
 
   // Short tagline for metadata + chip copy.
   tagline: "Personal AI projects · the playbook for building your own",

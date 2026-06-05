@@ -20,6 +20,7 @@
   --color-rule: var(--color-rule);
   --font-display: var(--font-fraunces);
   --font-sans: var(--font-hanken);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 html {
