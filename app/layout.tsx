@@ -21,11 +21,11 @@ const hanken = Hanken_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: "Mohit Dewan — PM building AI products",
+    default: "Mohit Dewan — Personal AI projects + the playbook",
     template: "%s · Mohit Dewan",
   },
   description:
-    "Personal site of Mohit Dewan — deep case studies of AI projects and a focused PM → AI PM learning trail.",
+    "Personal site of Mohit Dewan — case studies of personal AI projects and a trail anyone can follow to start their own. For builders, PMs, and curious tinkerers.",
   metadataBase: new URL("https://projectforge-beige.vercel.app"),
 };
 

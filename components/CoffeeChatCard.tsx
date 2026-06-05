@@ -8,16 +8,16 @@ export function CoffeeChatCard() {
           ☕ Coffee chat
         </span>
         <h2 className="font-display text-3xl sm:text-4xl tracking-tight">
-          Want to talk shop?
+          Want to compare notes?
         </h2>
         <p className="mt-4 text-ink-soft leading-relaxed">
-          I&apos;m taking calls with founders, AI leads, and PMs working
-          through their first production AI feature. Specs, evals, token
-          economics, adoption — pick a topic.
+          Happy to chat with folks figuring out their first personal AI
+          project, PMs exploring the transition, or builders comparing notes
+          on agents, MCP, or evals.
         </p>
         <p className="mt-3 text-ink-muted text-sm">
           The button below opens a pre-filled email so you don&apos;t have to
-          start from scratch.
+          start cold.
         </p>
         <a
           href={coffeeChatMailto()}

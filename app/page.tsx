@@ -18,9 +18,6 @@ export default function Home() {
         <p className="mt-8 max-w-2xl text-lg sm:text-xl text-ink-soft leading-relaxed">
           {site.positioningSub}
         </p>
-        <p className="mt-4 text-sm text-ink-muted">
-          Currently open to {site.lookingFor}.
-        </p>
         <div className="mt-10 flex flex-wrap gap-4">
           <Link
             href="/work"
@@ -28,17 +25,17 @@ export default function Home() {
           >
             View work
           </Link>
-          <a
-            href={`mailto:${site.email}`}
+          <Link
+            href="/learn"
             className="inline-flex items-center px-5 py-3 border hairline text-sm tracking-wide hover:bg-ink hover:text-paper transition-colors"
           >
-            Email me
-          </a>
+            Start the trail
+          </Link>
           <a
-            href={site.resumeHref}
+            href={`mailto:${site.email}`}
             className="inline-flex items-center px-5 py-3 text-sm tracking-wide text-ink-soft hover:text-terracotta transition-colors"
           >
-            Résumé ↗
+            Email me
           </a>
         </div>
       </section>

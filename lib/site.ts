@@ -1,23 +1,22 @@
 export const site = {
   name: "Mohit Dewan",
 
-  // Director-of-AI positioning. Working draft — Mohit to refine in his own voice.
+  // Builder framing — this site is a personal project showcase, not a job pitch.
+  // Audience: other builders, PMs exploring AI, curious tinkerers.
   positioningLine:
-    "I lead AI initiatives end-to-end — from strategy to evals to the token bill.",
+    "Personal AI projects, and the playbook for building your own.",
 
-  // Secondary line on home, underneath the H1.
   positioningSub:
-    "I think in adoption curves, eval suites, and ROI per token. This site has the artifacts and the playbook.",
+    "I'm a PM who builds with AI on the side — agentic workflows, recovery-aware planners, ATS-scraping job pipelines, astrophotography processing. This site lays out what I built, why, and a trail anyone can follow to start their own.",
 
   // Short tagline for metadata + chip copy.
-  tagline: "AI PM · strategy, evals, token economics",
+  tagline: "Personal AI projects · the playbook for building your own",
 
-  // TODO: replace placeholders before launch
+  // Contact placeholders — site is not a job pitch, but real humans still email.
   email: "mohitdewan.dce@gmail.com",
   linkedin: "https://www.linkedin.com/in/mohitdewan/",
   github: "https://github.com/mohitdewan",
   resumeHref: "/resume.pdf",
-  lookingFor: "AI Lead / Director of AI roles",
   url: "https://projectforge-beige.vercel.app",
 
   aiByline: "Built with Claude Code",
@@ -30,17 +29,17 @@ export const nav = [
   { href: "/about", label: "About" },
 ] as const;
 
-// Pre-structured coffee-chat mailto. Removes the blank-page barrier.
+// Pre-structured coffee-chat mailto — warmer, builder-to-builder.
 export function coffeeChatMailto(): string {
-  const subject = encodeURIComponent("Coffee chat");
+  const subject = encodeURIComponent("Comparing notes on AI projects");
   const body = encodeURIComponent(
     [
       `Hi ${site.name.split(" ")[0]},`,
       "",
-      "I'd love to chat — quick context on me:",
-      "• Who I am / what I do:",
-      "• Why I'm reaching out:",
-      "• A few times that work for me:",
+      "Saw your site — would love to compare notes. Quick context on me:",
+      "• What I'm building (or thinking of building):",
+      "• Where I'm stuck or curious:",
+      "• A few times that work for a 30-min call:",
       "",
       "Thanks!",
     ].join("\n"),
@@ -48,34 +47,31 @@ export function coffeeChatMailto(): string {
   return `mailto:${site.email}?subject=${subject}&body=${body}`;
 }
 
-// 'How I think about AI' — home page opinions block.
-// Each opinion is one bold claim + one short paragraph of reasoning.
-// Working drafts. Mohit owns final wording.
+// Home opinions — builder lessons from personal projects, not operator credentials.
 export const homeOpinions: ReadonlyArray<{ title: string; body: string }> = [
   {
-    title: "Evals beat vibes.",
-    body: "Most teams ship AI features without a golden set and learn the hard way after launch. The eval suite is the spec — write it before the prompt, not after the regression.",
+    title: "Start with the smallest agent that ships.",
+    body: "Most personal AI projects die under feature creep before the first version works end-to-end. Build the boring path first; you'll discover what's actually interesting only after something runs.",
   },
   {
-    title: "Token economics is a PM concern, not an FP&A one.",
-    body: "Unit economics live inside the prompt. If you don't know your cost-per-task and your cost-per-retry, you're not pricing your feature — you're hoping.",
+    title: "Pick the boring evaluation.",
+    body: "Even a ten-row spreadsheet golden set beats vibes. You don't need MLflow for a side project — you need an eval you'll actually run before each prompt change.",
   },
   {
-    title: "Human-in-the-loop is a product decision, not a safety net.",
-    body: "Where humans intervene shapes trust, throughput, and what the model is allowed to do. Design the seams up front; don't bolt them on after a bad demo.",
+    title: "Token cost is part of the product.",
+    body: "If your personal project costs five dollars per session, you won't use it. Design for cheap before you design for clever — caching, smaller models, and short context windows go further than fancier prompts.",
   },
   {
-    title: "Adoption is the metric. Demo wins are the trap.",
-    body: "A flashy demo wins the room; weekly active use wins the budget. Roadmaps that don't have an adoption hypothesis are roadmaps that haven't shipped yet.",
+    title: "Build the tool surface first, the prompt second.",
+    body: "Agents fail at tool design more often than at prompt design. If your tool signatures are messy, no amount of prompt engineering will save the trajectory.",
   },
   {
-    title: "Pick one of prompting, RAG, or fine-tuning per problem.",
-    body: "Stacking all three is a smell. The right answer is usually the simplest one that passes the eval — and the eval should be specific enough to tell.",
+    title: "Ship to one user (you). That's how you find what's actually broken.",
+    body: "Projects that ship to nobody stay perpetually almost-done. The fastest path to a real product is a real user — even if that user is just you, daily.",
   },
 ];
 
-// Selected work shown on home. Real outcomes go in the case-study MDX;
-// this is the home preview copy. Mohit refines hook + outcome wording.
+// Selected work — outcome lines emphasize the lesson, not metrics.
 export const selectedWork: ReadonlyArray<{
   slug: string;
   title: string;
@@ -88,7 +84,7 @@ export const selectedWork: ReadonlyArray<{
     title: "MCP Document Tools Server",
     hook: "If a model can read and edit your docs, the tools have to be airtight.",
     outcome:
-      "End-to-end Python MCP server with a tight tool surface and an Inspector-driven eval loop.",
+      "Learned that 80% of MCP work is tool surface design, not prompt design.",
     tags: ["MCP", "Agents", "Python"],
   },
   {
@@ -96,7 +92,7 @@ export const selectedWork: ReadonlyArray<{
     title: "AI Job-Search Dashboard",
     hook: "Most roles never hit the major boards — but the ATS APIs do.",
     outcome:
-      "Scrapes Ashby/Greenhouse/Lever, scores listings against my resume, surfaces only high-fit roles.",
+      "Found that the best ATS data comes from the platforms nobody scrapes. Scoring against my resume turned a firehose into a curated handful of high-fit roles.",
     tags: ["RAG", "Pipelines", "Evals"],
   },
   {
@@ -104,39 +100,38 @@ export const selectedWork: ReadonlyArray<{
     title: "Forge",
     hook: "A workout plan should change when your recovery does.",
     outcome:
-      "Recovery-aware session generator composing each workout from signals, time, equipment, and progression.",
+      "Tried building one workout for a generic 'me' — learned the planner has to ingest yesterday before today makes sense.",
     tags: ["iOS", "Personalization", "Product"],
   },
 ];
 
-// Friendly tier names for the learning trail, framed as practitioner playbook.
-// URLs stay /learn/stage-1 etc.
+// Friendly tier names for the learning trail — builder's trail, not curriculum.
 export const trailTiers = [
   {
     id: "stage-1",
-    eyebrow: "Mental models",
-    title: "How to think about AI products",
+    eyebrow: "Get your bearings",
+    title: "Mental models for building with AI",
     blurb:
-      "The vocabulary, the limits, the use cases worth chasing. What I tell PMs before they touch a prompt.",
+      "The vocabulary, the limits, and the use cases worth chasing. What I wish someone had told me before I touched my first prompt.",
     status: "live",
   },
   {
     id: "stage-2",
-    eyebrow: "Scoping & shipping",
-    title: "Specs, evals, and the production loop",
+    eyebrow: "Build your first thing",
+    title: "Scope, ship, evaluate, iterate",
     blurb:
-      "How to spec, evaluate, and ship something probabilistic without losing trust or the budget.",
+      "How to take an AI idea from a fuzzy thought to something running on your laptop — without the feature creep that kills most side projects.",
     status: "in-progress",
   },
   {
     id: "stage-3",
-    eyebrow: "Going deep",
+    eyebrow: "Go deeper",
     title: "Agents, MCP, and evals at scale",
     blurb:
-      "The technical depth a PM needs to lead — patterns, tradeoffs, and a capstone where you actually build.",
+      "The patterns and tradeoffs you'll bump into once your project gets ambitious — and a capstone where you actually build something agentic.",
     status: "in-progress",
   },
 ] as const;
 
 export const trailIntro =
-  "The playbook I wish existed when I started shipping AI products. Field notes, not a curriculum.";
+  "Field notes from building with AI on the side. What I tell people starting their first personal AI project.";
