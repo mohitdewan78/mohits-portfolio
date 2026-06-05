@@ -1,69 +1,76 @@
 export const meta = {
   slug: "forge",
   title: "Forge",
-  hook: "A workout plan should change when your recovery does.",
+  hook: "A workout plan that ignores yesterday is already wrong.",
   oneLine:
-    "A recovery-aware workout planner that composes each session from yesterday&apos;s signals, available time, equipment on hand, and where you are in a progression.",
-  tags: ["iOS", "Personalization", "Product"],
+    "An iOS app that reads Apple Health, computes a daily recovery score, and generates a calibrated workout — including a first-class 'active recovery' state when your body's asking for it.",
+  tags: ["iOS", "HealthKit", "Personalization"],
   status: "in-progress",
   order: 3,
   links: {
-    // TODO: Mohit — add demo video or screenshots
+    // TODO: Mohit — add TestFlight / App Store link when public
   },
 };
 
 ## Hook
 
-Every fitness app I&apos;ve used does the same thing: hand you a static plan on Monday and pretend Wednesday isn&apos;t different. But Wednesday *is* different — you slept four hours, you&apos;re sore, you&apos;re running short on time, and the gym&apos;s busy. A workout plan that doesn&apos;t see Tuesday is a plan that&apos;s already wrong.
+Every fitness app I&apos;ve used hands you a static plan on Monday and pretends Wednesday isn&apos;t different. But Wednesday *is* different — you slept four hours, you&apos;re sore, your heart rate variability tanked. A plan that doesn&apos;t see Tuesday is a plan that&apos;s already wrong. Forge started as &quot;what if the plan actually used the data?&quot; — and turned into a study in how much intelligence you can ship without any generation at all.
 
 ## Why I built it
 
-I wanted something that planned *today&apos;s* session, not this week&apos;s. The interesting AI work isn&apos;t the workout generation itself — it&apos;s the *composition* of inputs the model needs before it generates anything: recovery signals, time budget, equipment, where you are in your current progression. Most fitness apps don&apos;t even collect that data, let alone use it.
+Two reasons. The obvious one: I wanted a fitness app I&apos;d actually use, where the daily session reflected *today&apos;s* state, not last week&apos;s plan. The deeper one: I wanted to feel where the boundary actually sits between *AI products* and *data products with personalization*. Forge ended up being the project where I learned that the boundary is closer than people think — and a lot of what gets called &quot;AI&quot; is really good data plumbing plus deterministic rules.
 
-This was the project where I learned how much AI product work happens *upstream of the model*.
+Forge has no LLM. It has Apple Health, a recovery score, a generator that&apos;s a pure function of state, and a 7-day split cycle. That&apos;s it. And it&apos;s more responsive to my actual life than any app that *does* use AI.
 
 ## How it works
 
-The model is the last step. The work happens before:
+Three layers — read, decide, render — with localStorage as the system of record between them.
 
-```
-                  ┌─────────────────────────────────┐
-                  │   Daily intake (3 questions)    │
-                  │   • Recovery (sleep / soreness) │
-                  │   • Time available              │
-                  │   • Equipment / location        │
-                  └────────────────┬────────────────┘
-                                   │
-                  ┌────────────────▼────────────────┐
-                  │   Progression state             │
-                  │   (where am I in the cycle?)    │
-                  └────────────────┬────────────────┘
-                                   │
-                  ┌────────────────▼────────────────┐
-                  │   Session generator             │
-                  │   (LLM with constrained schema) │
-                  └────────────────┬────────────────┘
-                                   │
-                  ┌────────────────▼────────────────┐
-                  │   Today&apos;s session                │
-                  │   (with swap-out options)       │
-                  └─────────────────────────────────┘
-```
+<Mermaid
+  chart={`flowchart TD
+    AH["Apple Health<br/>HRV · sleep · RHR · workouts"]
+    AH -->|HealthKit| HKS["healthKitService<br/>(Capacitor bridge)"]
+    HKS --> PHD["parseHealthData<br/>→ ParsedHealthData"]
+    PHD --> RS["recoveryScore.ts<br/>→ score 0-100 + intensity"]
 
-The generator output is a constrained schema — exercises, sets, reps, rest, swap candidates — not free text. That made the UI dead simple and meant I could regress-test outputs against a small set of known states.
+    RS --> DEC{"Decision<br/>recovery + cycle state"}
+    DEC -->|low intensity or<br/>scheduled rest day| AR["Active Recovery<br/>breathing · habits · mobility"]
+    DEC -->|otherwise| WG["workoutGenerator.ts<br/>push · pull · legs ·<br/>upper · full body"]
 
-Built first as a React prototype to iterate fast on the planner logic. Now porting to native iOS for the recovery signal pieces that need HealthKit.
+    AR --> UI["iOS UI<br/>Capacitor + Next.js (static)<br/>+ React 19 + Tailwind v4"]
+    WG --> UI
+
+    UI --> LS[("localStorage<br/>history · cycle · prefs<br/>recovery habits")]
+    UI -.->|writes back| RS
+    UI --> WB["watchBridge<br/>→ Apple Watch"]
+  `}
+  caption="Forge — Apple Health goes in, a calibrated session comes out. No LLM in the path."
+/>
+
+**The recovery score is a pure function.** HRV, resting heart rate, sleep, recent muscle groups → a number 0–100 plus an intensity label (low / moderate / high). No model, no API call, no inference time. It runs on-device in milliseconds. Every choice downstream — what split, how much volume, whether today is even a workout day — falls out of that score plus the cycle state.
+
+**Active recovery is a first-class split, not a fallback.** When the recovery score comes back low (bad sleep, elevated RHR, suppressed HRV), the generator doesn&apos;t hand you a half-baked workout. It hands you a rest day — box breathing, a recovery-habits checklist (hydrate, mobility, sun), and gentle mobility work. The home screen UI swaps. The CTA changes. The whole experience reshapes around the answer instead of hiding it.
+
+**The cycle is a 7-day state machine.** `push → pull → legs → push → pull → legs → active_recovery`. Deterministic, predictable, debuggable. The decision of *which* split to generate is independent of *how* that split gets generated — and either can be tested in isolation.
+
+**localStorage is the system of record.** `healthData`, `userPreferences`, `appSettings`, `workoutCycle`, `workoutHistory`, `recoveryHabits` — six keys, one persistence model, all manually inspectable in Safari Web Inspector. The same logic I learned to love with Job Radar&apos;s Google Sheets backend: cheap, durable, no migrations.
+
+**The stack is more interesting than it looks.** Next.js 16 with `output: "export"` produces a static bundle; Capacitor wraps it in a WKWebView and gives it native bridges (HealthKit, notifications, Apple Watch, in-app purchases). The whole app is one `npm run build` away from running on the web too. The trade-off: the iOS dev loop is slower than web (build → `npx cap copy ios` → Xcode → device), and React 19&apos;s error swallowing inside the WebView creates uniquely cursed debugging sessions — blank black screens with no console output. I lost a weekend to that before adopting a hard rule about always wrapping risky render paths in try/catch with hardcoded-color fallback UI.
 
 ## What I learned
 
-**The model is the last 10%.** The first 90% is figuring out what data the model needs before it generates. I spent more time on the intake flow than on the prompt.
+**A lot of &quot;AI&quot; is good data structure plus deterministic rules.** I went into Forge thinking I&apos;d need a model to generate workouts well. I ended up not needing one — the structure of the data plus a handful of rules is more reliable, faster, cheaper, and easier to reason about. Save the model for the parts of the product that genuinely need open-ended generation. This is the project that made me skeptical of LLM-by-default.
 
-**Constrained output beats free text.** The session is a typed object — exercises, sets, reps. Once it&apos;s structured, swapping exercises is a UI affordance, not a re-prompt. Caching becomes possible. Comparison across sessions becomes possible.
+**Personalization is mostly remembering yesterday.** The interesting product moments aren&apos;t in *today&apos;s* generation — they&apos;re in how *today* reacts to *yesterday*. Most fitness apps don&apos;t persist the right things to react to anything. Forge persists more than it generates, and that&apos;s the asymmetry that matters.
 
-**Personalization is mostly remembering yesterday.** The interesting product moments are when today&apos;s session reacts to yesterday&apos;s data. The model doesn&apos;t need to be smart — it needs to be *informed*. Most apps don&apos;t store the right things to inform anything.
+**A failure state needs to be a real state.** &quot;Active recovery&quot; isn&apos;t a graceful degradation of a workout — it&apos;s its own product surface. Treating it that way meant the UX is *better* on bad-recovery days than on good ones, because the right answer is shown loud and unambiguously. The model-failure equivalent in agentic systems: design the &quot;I don&apos;t know how to do this&quot; state as a first-class UX, not a fallback.
 
-**A demo for one user (me) reveals more than user research.** I used my own daily intake for a month and noticed the plan kept giving me leg day on bad-sleep days. The fix wasn&apos;t a better prompt — it was a hard rule in the schema. Real use surfaces those edges; mocks don&apos;t.
+**Native is slow feedback by web standards.** Forty-five seconds from code change to running on device. No live reload. No reliable console output in Xcode. React 19 catches render errors internally and unmounts the tree → blank black screen with no signal. The fix is discipline you don&apos;t need on the web: ErrorBoundary at the root, try/catch around risky render paths, hardcoded-color fallback UIs that don&apos;t depend on Tailwind classes or CSS variables having loaded. The web spoils you.
+
+**Tailwind v4 is the right cost.** CSS variables for the theme tokens, `var(--token)` inline styles for anything that must render correctly even if class generation breaks, Tailwind utilities for decoration. That split survived the React-19-eats-errors hellscape — important elements rendered even when class generation lagged.
 
 ## What I&apos;d build next
 
-A recovery model that learns from outcomes — did the session you got actually fit, or did you swap half of it? That feedback loop is the missing piece. Right now Forge plans well but doesn&apos;t learn from how well its plans landed. Adding that is what turns it from a planner into a coach.
+The recovery score should *learn from outcomes*. Right now it&apos;s a pure function of metrics, with no feedback loop — did the session it gave me actually fit? Did I swap half of it? Did I drop the last set? That feedback is the missing ingredient. Adding it is the moment Forge stops being a planner and starts being a coach.
+
+After that, the place where an LLM *would* earn its keep: variation. Same target muscle group, same recovery score — give me a different feel. Different rep schemes, different equipment substitutions, different intensity techniques. The deterministic generator picks the *shape* of the workout; a small model picks the *flavor*. Generation only where it adds something rules can&apos;t.

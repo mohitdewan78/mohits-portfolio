@@ -97,10 +97,10 @@ export const selectedWork: ReadonlyArray<{
   {
     slug: "forge",
     title: "Forge",
-    hook: "A workout plan should change when your recovery does.",
+    hook: "A workout plan that ignores yesterday is already wrong.",
     outcome:
-      "Tried building one workout for a generic 'me' — learned the planner has to ingest yesterday before today makes sense.",
-    tags: ["iOS", "Personalization", "Product"],
+      "Built it expecting to need a model — shipped a recovery-aware iOS app with no LLM. The project that made me skeptical of LLM-by-default.",
+    tags: ["iOS", "HealthKit", "Personalization"],
   },
 ];
 
