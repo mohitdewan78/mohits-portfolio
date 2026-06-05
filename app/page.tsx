@@ -1,24 +1,25 @@
 import Link from "next/link";
-import { site } from "@/lib/site";
+import { site, selectedWork } from "@/lib/site";
+import { Opinions } from "@/components/Opinions";
+import { ProjectCard } from "@/components/ProjectCard";
+import { CoffeeChatCard } from "@/components/CoffeeChatCard";
 
 export default function Home() {
   return (
     <div className="mx-auto max-w-5xl px-6">
-      <section className="pt-24 pb-20 sm:pt-32 sm:pb-28 border-b hairline">
-        <p className="font-display italic text-ink-muted mb-6 text-sm tracking-wide uppercase">
-          Portfolio + AI learning hub
+      {/* Block 1 — Hero */}
+      <section className="pt-24 pb-20 sm:pt-32 sm:pb-24">
+        <p className="font-display italic text-terracotta mb-6 text-sm tracking-widest uppercase">
+          {site.tagline}
         </p>
-        <h1 className="font-display text-4xl sm:text-6xl leading-[1.08] tracking-tight max-w-4xl">
+        <h1 className="font-display text-4xl sm:text-6xl leading-[1.05] tracking-tight max-w-4xl">
           {site.positioningLine}
         </h1>
-        <p className="mt-8 max-w-2xl text-lg text-ink-soft leading-relaxed">
-          I&apos;m {site.name} — a PM moving deeper into AI. This site holds
-          case studies of my personal AI projects and a focused PM → AI PM
-          learning trail with my own notes. Built so the next person making
-          this transition has a map.
+        <p className="mt-8 max-w-2xl text-lg sm:text-xl text-ink-soft leading-relaxed">
+          {site.positioningSub}
         </p>
-        <p className="mt-3 text-sm text-ink-muted">
-          Currently looking for {site.lookingFor.toLowerCase()}.
+        <p className="mt-4 text-sm text-ink-muted">
+          Currently open to {site.lookingFor}.
         </p>
         <div className="mt-10 flex flex-wrap gap-4">
           <Link
@@ -33,46 +34,40 @@ export default function Home() {
           >
             Email me
           </a>
+          <a
+            href={site.resumeHref}
+            className="inline-flex items-center px-5 py-3 text-sm tracking-wide text-ink-soft hover:text-terracotta transition-colors"
+          >
+            Résumé ↗
+          </a>
         </div>
       </section>
 
-      <section className="py-20">
-        <h2 className="font-display text-3xl mb-2">Featured work</h2>
-        <p className="text-ink-muted text-sm mb-10">
-          Case studies coming online — see the full list at{" "}
-          <Link href="/work" className="underline hover:text-terracotta">
-            /work
+      {/* Block 2 — Opinions */}
+      <Opinions />
+
+      {/* Block 3 — Selected work */}
+      <section className="py-20 border-t hairline">
+        <div className="flex items-baseline justify-between mb-12 gap-6">
+          <h2 className="font-display text-3xl sm:text-4xl tracking-tight">
+            Selected work
+          </h2>
+          <Link
+            href="/work"
+            className="text-sm text-ink-muted hover:text-terracotta underline underline-offset-2"
+          >
+            All case studies →
           </Link>
-          .
-        </p>
-        <div className="grid sm:grid-cols-3 gap-8">
-          {[
-            { title: "MCP Document Tools Server", note: "Python MCP server, end-to-end" },
-            { title: "AI Job-Search Dashboard", note: "ATS scraping + resume scoring" },
-            { title: "Forge", note: "Recovery-aware workout planner" },
-          ].map((p) => (
-            <div key={p.title} className="border-t hairline pt-4">
-              <p className="font-display text-xl">{p.title}</p>
-              <p className="text-ink-muted text-sm mt-1">{p.note}</p>
-            </div>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+          {selectedWork.map((p) => (
+            <ProjectCard key={p.slug} {...p} />
           ))}
         </div>
       </section>
 
-      <section className="py-16 border-t hairline">
-        <h2 className="font-display text-3xl mb-3">The learning trail</h2>
-        <p className="text-ink-soft max-w-2xl leading-relaxed">
-          A focused PM → AI PM curriculum in three stages: foundations, scoping
-          &amp; shipping AI features, and technical depth. My notes are the
-          point — the resources are the breadcrumbs.
-        </p>
-        <Link
-          href="/learn"
-          className="inline-block mt-6 text-sm underline hover:text-terracotta"
-        >
-          Start the trail →
-        </Link>
-      </section>
+      {/* Block 4 — Coffee chat */}
+      <CoffeeChatCard />
     </div>
   );
 }
