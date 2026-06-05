@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { trailTiers, trailIntro } from "@/lib/site";
-import { stage1Modules, type Level } from "@/lib/learn";
+import { stage1Modules, stage2Modules, type Level } from "@/lib/learn";
 import { PreferenceBar } from "@/components/PreferenceBar";
 import { StageProgress } from "@/components/StageProgress";
 import { StageRecommendedBadge } from "@/components/RecommendedBadge";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 // Stage 1 has full modules; Stages 2 & 3 are placeholders for now.
 const stageModuleIds: Record<string, string[]> = {
   "stage-1": stage1Modules.map((m) => m.id),
-  "stage-2": [],
+  "stage-2": stage2Modules.map((m) => m.id),
   "stage-3": [],
 };
 

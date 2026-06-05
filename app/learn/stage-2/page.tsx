@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { stage1Modules } from "@/lib/learn";
+import { stage2Modules } from "@/lib/learn";
 import { trailTiers } from "@/lib/site";
 import { PreferenceBar } from "@/components/PreferenceBar";
 import { StageProgress } from "@/components/StageProgress";
@@ -8,15 +8,15 @@ import { MatchedOnlyToggle } from "@/components/MatchedOnlyToggle";
 import { ModuleList } from "@/components/ModuleList";
 import { ResetProgress } from "@/components/ResetProgress";
 
-const tier = trailTiers.find((t) => t.id === "stage-1")!;
-const moduleIds = stage1Modules.map((m) => m.id);
+const tier = trailTiers.find((t) => t.id === "stage-2")!;
+const moduleIds = stage2Modules.map((m) => m.id);
 
 export const metadata: Metadata = {
-  title: `Stage 1 — ${tier.title}`,
+  title: `Stage 2 — ${tier.title}`,
   description: tier.blurb,
 };
 
-export default function Stage1Page() {
+export default function Stage2Page() {
   return (
     <div className="mx-auto max-w-3xl px-6 pt-20 pb-24">
       <header className="mb-12 pb-12 border-b hairline">
@@ -26,7 +26,7 @@ export default function Stage1Page() {
           </Link>
         </p>
         <p className="font-display italic text-terracotta mb-3 text-sm tracking-widest uppercase">
-          Stage 01 · {tier.eyebrow}
+          Stage 02 · {tier.eyebrow}
         </p>
         <h1 className="font-display text-4xl sm:text-6xl tracking-tight leading-[1.05]">
           {tier.title}
@@ -44,7 +44,7 @@ export default function Stage1Page() {
         <MatchedOnlyToggle />
       </div>
 
-      <ModuleList modules={stage1Modules} />
+      <ModuleList modules={stage2Modules} />
 
       <footer className="mt-24 pt-10 border-t hairline">
         <div className="flex items-center justify-between gap-6 flex-wrap">

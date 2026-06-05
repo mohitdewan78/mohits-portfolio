@@ -248,7 +248,194 @@ export const stage1Modules: Module[] = [
   },
 ];
 
-export function getStage(stageId: string): typeof stage1Modules | null {
+// Stage 2 — six modules, ordered. "Build your first thing" — taking an AI
+// idea from a fuzzy thought to something running on your laptop. Written
+// in v4 builder voice for someone who's read Stage 1 and is ready to ship.
+export const stage2Modules: Module[] = [
+  {
+    id: "01-llm-product-lifecycle",
+    title: "The LLM product lifecycle",
+    personas: ["ai-pm", "engineer"],
+    note: "Regular software has a release cycle. AI products have a *loop* — discovery, prototype, eval, ship, monitor, learn, repeat — and the loop tightens over time. The biggest mistake first-time builders make is treating ship as the end of the cycle instead of the start of the interesting part. The first version exists so you can measure how badly it's wrong. Everything you learn after launch is what makes version two earn its keep. Plan the post-launch loop before you plan the launch.",
+    resources: [
+      {
+        label: "What We've Learned From a Year of Building with LLMs",
+        url: "https://applied-llms.org/",
+        format: "post",
+        source: "Applied LLMs",
+        time: "1 hr",
+        blurb:
+          "Six practitioners' joint writeup. The 'operational' section is what most lifecycle posts miss.",
+      },
+      {
+        label: "Anthropic's prompt engineering tutorials",
+        url: "https://github.com/anthropics/prompt-eng-interactive-tutorial",
+        format: "repo",
+        source: "Anthropic",
+        time: "3 hrs",
+        blurb:
+          "Hands-on notebook walk-through of the discovery → prototype loop, end to end.",
+      },
+    ],
+    linkedProject: {
+      slug: "job-dashboard",
+      label: "See the lifecycle in Job Radar",
+    },
+  },
+  {
+    id: "02-tool-use-and-rag",
+    title: "Tool use, function calling, and RAG — when to use which",
+    personas: ["engineer", "ai-pm"],
+    note: "Three patterns get stacked together more often than they should. Tool use lets the model *take an action* — call your code, hit an API, edit a file. RAG lets the model *read* the right slice of your data before answering. Function calling is the protocol both run on. The right pattern is the simplest one that passes your eval. If your model needs more context, that's RAG. If it needs to *do something*, that's tool use. Stacking both is fine when the task genuinely requires it — and a smell when it doesn't.",
+    resources: [
+      {
+        label: "Tool use with Claude",
+        url: "https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview",
+        format: "docs",
+        source: "Anthropic",
+        time: "30 min",
+        blurb:
+          "The official tool-use guide. Read once, then come back when you're designing your own tool surface.",
+      },
+      {
+        label: "Building effective agents",
+        url: "https://www.anthropic.com/research/building-effective-agents",
+        format: "post",
+        source: "Anthropic",
+        time: "20 min",
+        blurb:
+          "The taxonomy of when to reach for tool use vs RAG vs an agent loop — the most reused decision tree in this space.",
+      },
+    ],
+    linkedProject: {
+      slug: "mcp-server",
+      label: "See tool-surface design in the MCP server case study",
+    },
+  },
+  {
+    id: "03-evals",
+    title: "Evals — offline, online, and the LLM-as-judge",
+    personas: ["engineer", "ai-pm"],
+    note: "If Stage 1 sold you on having an eval, Stage 2 is how the eval grows up. Three flavors: offline (a golden set you run before ship), online (production signals — thumbs, abandonment, retries), and LLM-as-judge (using a model to score another model's outputs against a rubric). Each catches a different class of regression. Offline is your spec. Online is your truth. LLM-as-judge scales when manual review can't. Most production teams run all three; most weekend projects need only the first one, done well.",
+    resources: [
+      {
+        label: "Your AI Product Needs Evals",
+        url: "https://hamel.dev/blog/posts/evals/",
+        format: "post",
+        source: "Hamel Husain",
+        time: "30 min",
+        blurb:
+          "The piece that names the discipline. If you only read one thing on evals, this is it.",
+      },
+      {
+        label: "Patterns for Building LLM-based Systems & Products",
+        url: "https://eugeneyan.com/writing/llm-patterns/",
+        format: "post",
+        source: "Eugene Yan",
+        time: "1 hr",
+        blurb:
+          "The reference architecture overview, with evals threaded through. Save the diagrams.",
+      },
+    ],
+    linkedProject: {
+      slug: "job-dashboard",
+      label: "See the LLM-as-judge framework in Job Radar",
+    },
+  },
+  {
+    id: "04-specs-for-non-deterministic",
+    title: "Writing specs for non-deterministic systems",
+    personas: ["ai-pm", "engineer"],
+    note: "A PRD for an AI feature is the same shape as a PRD for any other feature — until it isn't. Acceptance criteria stop being pass/fail and become acceptable ranges. \"The system should respond accurately\" is not a spec; it's a wish. A real spec names the eval set, the threshold, the fallback when the threshold isn't met, the guardrail when the answer is dangerous, and the human-in-the-loop checkpoint when the stakes are high. The trick is to write down the *failure mode* before you write down the success mode. The spec for what happens when the model is wrong is often more useful than the spec for when it's right.",
+    resources: [
+      {
+        label: "Behind the prompt: a thoughtful PM on building AI products",
+        url: "https://www.lennysnewsletter.com/p/behind-the-prompt-aman-khan",
+        format: "post",
+        source: "Lenny's Newsletter",
+        time: "25 min",
+        blurb:
+          "PM-flavored take on what changes in PRD-writing when the system is probabilistic.",
+      },
+      {
+        label: "Anthropic's responsible scaling policy",
+        url: "https://www.anthropic.com/news/anthropics-responsible-scaling-policy",
+        format: "post",
+        source: "Anthropic",
+        time: "30 min",
+        blurb:
+          "Industrial-scale spec for failure modes and guardrails — overkill for your project, illuminating as a reference.",
+      },
+    ],
+    linkedProject: {
+      slug: "forge",
+      label: "See 'failure as first-class state' in Forge",
+    },
+  },
+  {
+    id: "05-cost-latency-model-selection",
+    title: "Cost, latency, and model selection",
+    personas: ["engineer", "ai-pm"],
+    note: "Every AI feature has a cost-per-task and a latency budget, whether you measured them or not. Once you do measure, the picking-a-model question collapses fast: small/cheap by default, big/slow only where the eval demands it. Prompt caching dramatically changes the math when you have a stable prefix (a rubric, a resume, a long system prompt). Tiered routing — cheap model decides if the expensive model is needed — is the next move when one model isn't enough. Watch your token usage like you'd watch DB query counts. They're the same problem.",
+    resources: [
+      {
+        label: "Prompt caching with Claude",
+        url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching",
+        format: "docs",
+        source: "Anthropic",
+        time: "20 min",
+        blurb:
+          "The lever that drops per-call cost an order of magnitude when you have a stable prefix.",
+      },
+      {
+        label: "Artificial Analysis model comparison",
+        url: "https://artificialanalysis.ai/models",
+        format: "docs",
+        source: "Artificial Analysis",
+        time: "10 min",
+        blurb:
+          "Side-by-side cost / latency / capability across every major model. Bookmark and revisit quarterly.",
+      },
+    ],
+    linkedProject: {
+      slug: "job-dashboard",
+      label: "See prompt caching + tiered routing in Job Radar",
+    },
+  },
+  {
+    id: "06-ai-ux-patterns",
+    title: "AI UX patterns — trust, confidence, and failure",
+    personas: ["ai-pm", "curious"],
+    note: "AI features fail in public. The interface has to absorb that. Three patterns to internalize: *show your confidence* (don't dress a guess in the same skin as a fact), *design the recovery* (when the model is wrong, what does the user do?), and *make the human-in-the-loop seam visible* (people trust systems they can interrupt). The product surface for \"I don't know\" or \"I'm not sure\" is harder to design than the product surface for the right answer. Treat it as a feature, not a fallback.",
+    resources: [
+      {
+        label: "AI UX research from Nielsen Norman Group",
+        url: "https://www.nngroup.com/articles/ai-ux/",
+        format: "post",
+        source: "NN/g",
+        time: "30 min",
+        blurb:
+          "The most rigorous study of AI UX patterns going. Cited everywhere for a reason.",
+      },
+      {
+        label: "Generative UI",
+        url: "https://sdk.vercel.ai/docs/ai-sdk-rsc/generative-ui",
+        format: "docs",
+        source: "Vercel AI SDK",
+        time: "20 min",
+        blurb:
+          "Streaming, tool-result rendering, and human-in-the-loop affordances — in working code.",
+      },
+    ],
+    linkedProject: {
+      slug: "forge",
+      label: "See 'recovery as a first-class UX state' in Forge",
+    },
+  },
+];
+
+export function getStage(stageId: string): Module[] | null {
   if (stageId === "stage-1") return stage1Modules;
+  if (stageId === "stage-2") return stage2Modules;
   return null;
 }

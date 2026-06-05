@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { stage1Modules, type Resource } from "@/lib/learn";
+import type { Module, Resource } from "@/lib/learn";
 import { useLearnPrefs } from "@/components/LearnPrefsProvider";
 import { ModuleCheckbox } from "@/components/ModuleCheckbox";
 import { ModuleMatchedBadge } from "@/components/RecommendedBadge";
@@ -51,16 +51,20 @@ function ResourceCard({ r }: { r: Resource }) {
   );
 }
 
-export function Stage1ModuleList() {
+/**
+ * Generic learning-trail module list. Filters by persona + matchedOnly
+ * pref; tracks per-module completion via LearnPrefsProvider context.
+ */
+export function ModuleList({ modules }: { modules: Module[] }) {
   const { persona, matchedOnly, completed, hydrated } = useLearnPrefs();
 
-  const visible = stage1Modules.filter((m) => {
+  const visible = modules.filter((m) => {
     if (!hydrated) return true;
     if (matchedOnly && persona && !m.personas.includes(persona)) return false;
     return true;
   });
 
-  const hiddenCount = stage1Modules.length - visible.length;
+  const hiddenCount = modules.length - visible.length;
 
   return (
     <>
@@ -73,7 +77,7 @@ export function Stage1ModuleList() {
 
       <ol className="space-y-20">
         {visible.map((m) => {
-          const i = stage1Modules.indexOf(m);
+          const i = modules.indexOf(m);
           const isDone = hydrated && completed.includes(m.id);
           return (
             <li key={m.id} id={m.id}>
@@ -89,7 +93,9 @@ export function Stage1ModuleList() {
                 <h2
                   className={
                     "font-display text-2xl sm:text-3xl tracking-tight leading-tight flex-1 min-w-0 " +
-                    (isDone ? "text-ink-muted line-through decoration-1" : "text-ink")
+                    (isDone
+                      ? "text-ink-muted line-through decoration-1"
+                      : "text-ink")
                   }
                 >
                   {m.title}
@@ -98,7 +104,9 @@ export function Stage1ModuleList() {
               </div>
 
               <div className="ml-0 sm:ml-[3.5rem]">
-                <p className="text-ink-soft leading-relaxed text-lg">{m.note}</p>
+                <p className="text-ink-soft leading-relaxed text-lg">
+                  {m.note}
+                </p>
 
                 {m.linkedProject && (
                   <p className="mt-4">

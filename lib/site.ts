@@ -91,7 +91,7 @@ export const trailTiers = [
     title: "Scope, ship, evaluate, iterate",
     blurb:
       "How to take an AI idea from a fuzzy thought to something running on your laptop — without the feature creep that kills most side projects.",
-    status: "in-progress",
+    status: "live",
     recommendedLevel: "intermediate",
   },
   {
