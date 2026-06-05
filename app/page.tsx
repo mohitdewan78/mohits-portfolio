@@ -8,17 +8,14 @@ export default function Home() {
         <p className="font-display italic text-ink-muted mb-6 text-sm tracking-wide uppercase">
           Portfolio + AI learning hub
         </p>
-        <h1 className="font-display text-5xl sm:text-7xl leading-[1.05] tracking-tight max-w-4xl">
-          {site.tagline}.
-          <br />
-          <span className="text-ink-soft italic">
-            Here are the artifacts and the trail.
-          </span>
+        <h1 className="font-display text-4xl sm:text-6xl leading-[1.08] tracking-tight max-w-4xl">
+          {site.positioningLine}
         </h1>
         <p className="mt-8 max-w-2xl text-lg text-ink-soft leading-relaxed">
           I&apos;m {site.name} — a PM moving deeper into AI. This site holds
           case studies of my personal AI projects and a focused PM → AI PM
-          learning trail with my own notes.
+          learning trail with my own notes. Built so the next person making
+          this transition has a map.
         </p>
         <p className="mt-3 text-sm text-ink-muted">
           Currently looking for {site.lookingFor.toLowerCase()}.
