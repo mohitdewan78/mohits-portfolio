@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --color-paper: #f4f0e8;
+  --color-paper: #faf7f0;
   --color-ink: #1c1a16;
   --color-ink-soft: #4a463d;
   --color-ink-muted: #837d6f;
@@ -21,6 +21,7 @@
   --font-display: var(--font-fraunces);
   --font-sans: var(--font-hanken);
   --font-mono: var(--font-jetbrains-mono);
+  --font-brand: var(--font-bricolage);
 }
 
 html {

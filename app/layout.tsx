@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Fraunces, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
+import {
+  Fraunces,
+  Hanken_Grotesk,
+  JetBrains_Mono,
+  Bricolage_Grotesque,
+} from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Nav } from "@/components/Nav";
@@ -25,6 +30,12 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Mohit Dewan — Personal AI projects + the playbook",
@@ -41,7 +52,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${hanken.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${hanken.variable} ${jetbrainsMono.variable} ${bricolage.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Nav />
