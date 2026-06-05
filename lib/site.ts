@@ -70,39 +70,9 @@ export const homeOpinions: ReadonlyArray<{ title: string; body: string }> = [
   },
 ];
 
-// Selected work — outcome lines emphasize the lesson, not metrics.
-export const selectedWork: ReadonlyArray<{
-  slug: string;
-  title: string;
-  hook: string;
-  outcome: string;
-  tags: readonly string[];
-}> = [
-  {
-    slug: "mcp-server",
-    title: "MCP Document Tools Server",
-    hook: "If a model can read and edit your docs, the tools have to be airtight.",
-    outcome:
-      "Learned that 80% of MCP work is tool surface design, not prompt design.",
-    tags: ["MCP", "Agents", "Python"],
-  },
-  {
-    slug: "job-dashboard",
-    title: "Job Radar",
-    hook: "Most roles never hit the major boards — but the ATS APIs do.",
-    outcome:
-      "A twice-weekly pipeline that scrapes Greenhouse and Ashby, scores listings against role-specific resumes via Claude, and serves the high-fit batch to a mobile dashboard.",
-    tags: ["Pipelines", "LLM-as-judge", "Prompt caching"],
-  },
-  {
-    slug: "forge",
-    title: "Forge",
-    hook: "A workout plan that ignores yesterday is already wrong.",
-    outcome:
-      "Built it expecting to need a model — shipped a recovery-aware iOS app with no LLM. The project that made me skeptical of LLM-by-default.",
-    tags: ["iOS", "HealthKit", "Personalization"],
-  },
-];
+// (Selected work has been removed from the home page; the canonical
+//  case-study list lives at /work and is sourced from content/work/*.mdx
+//  via lib/work.ts. Restore this constant if a featured row returns.)
 
 // Friendly tier names for the learning trail — builder's trail, not curriculum.
 export const trailTiers = [

@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { site, selectedWork } from "@/lib/site";
+import { site } from "@/lib/site";
 import { Opinions } from "@/components/Opinions";
-import { ProjectCard } from "@/components/ProjectCard";
 import { CoffeeChatCard } from "@/components/CoffeeChatCard";
 
 export default function Home() {
@@ -43,27 +42,7 @@ export default function Home() {
       {/* Block 2 — Opinions */}
       <Opinions />
 
-      {/* Block 3 — Selected work */}
-      <section className="py-20 border-t hairline">
-        <div className="flex items-baseline justify-between mb-12 gap-6">
-          <h2 className="font-display text-3xl sm:text-4xl tracking-tight">
-            Selected work
-          </h2>
-          <Link
-            href="/work"
-            className="text-sm text-ink-muted hover:text-terracotta underline underline-offset-2"
-          >
-            All case studies →
-          </Link>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-          {selectedWork.map((p) => (
-            <ProjectCard key={p.slug} {...p} />
-          ))}
-        </div>
-      </section>
-
-      {/* Block 4 — Coffee chat */}
+      {/* Block 3 — Coffee chat */}
       <CoffeeChatCard />
     </div>
   );
