@@ -4,6 +4,7 @@ import {
   Hanken_Grotesk,
   JetBrains_Mono,
   Bricolage_Grotesque,
+  Caveat,
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -36,6 +37,13 @@ const bricolage = Bricolage_Grotesque({
   display: "swap",
 });
 
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Mohit Dewan — Personal AI projects + the playbook",
@@ -52,7 +60,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${hanken.variable} ${jetbrainsMono.variable} ${bricolage.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${hanken.variable} ${jetbrainsMono.variable} ${bricolage.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Nav />

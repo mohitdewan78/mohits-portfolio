@@ -22,6 +22,7 @@
   --font-sans: var(--font-hanken);
   --font-mono: var(--font-jetbrains-mono);
   --font-brand: var(--font-bricolage);
+  --font-signature: var(--font-caveat);
 }
 
 html {
