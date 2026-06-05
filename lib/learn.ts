@@ -434,8 +434,200 @@ export const stage2Modules: Module[] = [
   },
 ];
 
+// Stage 3 — six modules, ordered. "Go deeper" — agents, MCP, production
+// pipelines, evals at scale, and a capstone. v4 builder voice with a more
+// technical edge for readers ready to ship something agentic.
+export const stage3Modules: Module[] = [
+  {
+    id: "01-agentic-architecture",
+    title: "Agentic architecture and orchestration",
+    personas: ["engineer", "ai-pm"],
+    note: "An agent is just an LLM in a loop with tools and the ability to decide what to do next. The architecture decision is how much autonomy you hand it: a *chain* (you decide steps, model fills them), a *workflow* (you decide branches, model picks), or an *agent* (model decides everything). More autonomy means more failure modes — a chain breaks predictably; an agent goes off the rails creatively. Start with chains. Escalate to workflows when fixed branches stop covering your cases. Only reach for fully autonomous agents when you've proven your tool surface is bulletproof. Most products labeled \"agents\" in the market are actually workflows — and that's usually the right answer.",
+    resources: [
+      {
+        label: "LLM Powered Autonomous Agents",
+        url: "https://lilianweng.github.io/posts/2023-06-23-agent/",
+        format: "post",
+        source: "Lilian Weng",
+        time: "1 hr",
+        blurb:
+          "The reference taxonomy of agent components — planning, memory, tools. Read once, refer back forever.",
+      },
+      {
+        label: "LangGraph documentation",
+        url: "https://langchain-ai.github.io/langgraph/",
+        format: "docs",
+        source: "LangChain",
+        time: "2 hrs",
+        blurb:
+          "The most common framework for orchestrating workflows and agents. Even if you don't adopt it, the patterns transfer.",
+      },
+    ],
+    linkedProject: {
+      slug: "mcp-server",
+      label: "See agent-tool design in the MCP server case study",
+    },
+  },
+  {
+    id: "02-mcp-and-tool-ecosystems",
+    title: "MCP and the tool ecosystem",
+    personas: ["engineer"],
+    note: "Model Context Protocol is the standard for letting a model talk to your tools — without you re-implementing a new tool calling convention for every model provider. A server exposes tools, the model (via a host like Claude or an IDE) calls them, results stream back. The interesting work is in *tool surface design* — what tools you expose, what their schemas say, what errors look like. The protocol is the easy part. The hard part is the same as designing any other API: clear names, tight inputs, recoverable failures. MCP just gives you a standard envelope for the conversation.",
+    resources: [
+      {
+        label: "Model Context Protocol — official docs",
+        url: "https://modelcontextprotocol.io/",
+        format: "docs",
+        source: "MCP",
+        time: "1 hr",
+        blurb:
+          "Spec, SDKs, and a curated server registry. The right starting point.",
+      },
+      {
+        label: "Introducing the Model Context Protocol",
+        url: "https://www.anthropic.com/news/model-context-protocol",
+        format: "post",
+        source: "Anthropic",
+        time: "10 min",
+        blurb:
+          "The announcement post — short, sharp, explains the *why* before the spec gets dense.",
+      },
+    ],
+    linkedProject: {
+      slug: "mcp-server",
+      label: "See an end-to-end MCP server in practice",
+    },
+  },
+  {
+    id: "03-production-pipeline",
+    title: "Building a real pipeline end-to-end",
+    personas: ["engineer", "ai-pm"],
+    note: "Production AI pipelines are mostly data pipelines with a model call somewhere in the middle. The AI part is the smallest source of bugs; the scrapers, schemas, retries, timeouts, and rate limits eat your time. Build for the failures you'll actually see: rate-limited APIs, malformed inputs, partial outputs, ambiguous classifications. Wrap every external call in retry + timeout. Make the output schema strict. Log enough that when a row goes weird, you can replay it. The model is the cheapest, most replaceable part of the system; everything around it isn't.",
+    resources: [
+      {
+        label: "Patterns for Building LLM-based Systems & Products",
+        url: "https://eugeneyan.com/writing/llm-patterns/",
+        format: "post",
+        source: "Eugene Yan",
+        time: "1 hr",
+        blurb:
+          "The reference architecture overview, with each pattern grounded in what fails without it.",
+      },
+      {
+        label: "A field guide to rapidly improving AI products",
+        url: "https://hamel.dev/blog/posts/field-guide/",
+        format: "post",
+        source: "Hamel Husain",
+        time: "45 min",
+        blurb:
+          "Practitioner playbook for the post-launch iteration loop. The other half of the lifecycle most teams skip.",
+      },
+    ],
+    linkedProject: {
+      slug: "job-dashboard",
+      label: "See a real seven-stage pipeline in Job Radar",
+    },
+  },
+  {
+    id: "04-evals-at-scale",
+    title: "Evals at scale and observability",
+    personas: ["engineer", "ai-pm"],
+    note: "When evals graduate from a spreadsheet, you need three things: *trace storage* (every request, response, and tool call kept for replay), *a way to view them* (dashboards, or just SQL over the traces), and *regression tests that run automatically* before each prompt change. The good news: the tooling now exists — LangSmith, Braintrust, Phoenix, Helicone. The bad news: vendor lock-in is real. Roll your own when you can; pay for a tool when you need the UI and the SLA. Either way, the discipline is the same: log everything, regress everything, look at the bad ones every week.",
+    resources: [
+      {
+        label: "LangSmith — observability for LLM apps",
+        url: "https://docs.smith.langchain.com/",
+        format: "docs",
+        source: "LangChain",
+        time: "1 hr",
+        blurb:
+          "The most-used hosted option. Worth understanding even if you choose to roll your own.",
+      },
+      {
+        label: "Arize Phoenix — open-source LLM observability",
+        url: "https://docs.arize.com/phoenix",
+        format: "docs",
+        source: "Arize AI",
+        time: "1 hr",
+        blurb:
+          "The open-source alternative. Tracing, evals, and replay — self-hostable.",
+      },
+    ],
+    linkedProject: {
+      slug: "job-dashboard",
+      label: "See LLM-as-judge evals in Job Radar",
+    },
+  },
+  {
+    id: "05-prompt-rag-finetune",
+    title: "Prompting vs RAG vs fine-tuning",
+    personas: ["engineer", "ai-pm"],
+    note: "A flowchart everyone working with LLMs should internalize. Need general knowledge the model already has? Prompt. Need facts that aren't in training? RAG. Need behavior or style the model can't be coaxed into with examples? Fine-tune. Stacking all three is a smell, but combining the right two is common: RAG for facts + fine-tune for tone, or RAG for facts + prompt for behavior. The economics: prompt is cheap, RAG is moderate, fine-tune is expensive in setup but cheaper at inference scale. The threshold for fine-tuning is higher than most teams think.",
+    resources: [
+      {
+        label: "RAG vs Fine-tuning — pipelines, tradeoffs, and a hybrid",
+        url: "https://arxiv.org/abs/2401.08406",
+        format: "paper",
+        source: "arXiv (Microsoft / others)",
+        time: "45 min",
+        blurb:
+          "The reference comparison paper. Long but the conclusions table earns the read.",
+      },
+      {
+        label: "When to fine-tune vs prompt — Anthropic guidance",
+        url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-examples",
+        format: "docs",
+        source: "Anthropic",
+        time: "20 min",
+        blurb:
+          "Walk-through of when few-shot prompting closes the gap fine-tuning would otherwise need.",
+      },
+    ],
+    linkedProject: {
+      slug: "job-dashboard",
+      label: "See the prompting + RAG-lite tradeoff in Job Radar",
+    },
+  },
+  {
+    id: "06-capstone",
+    title: "Capstone — ship something agentic",
+    personas: ["engineer", "ai-pm", "curious"],
+    note: "The whole trail has been pointing here. Pick a problem you actually have — not a portfolio piece. Define the smallest version that would help you tomorrow. Write the eval (ten to thirty rows on a spreadsheet). Wire the smallest agent that ships. Use it daily for a week. Notice what's broken. Fix the broken thing. Use it for another week. That's the entire loop. Don't optimize before there's something to optimize, don't generalize before you've used the specific version, and don't show it to anyone until you've used it yourself. Every project on this site started exactly this way. You can borrow any of their structure as a template — that's why they're written up.",
+    resources: [
+      {
+        label: "Job Radar — pipeline + LLM-as-judge template",
+        url: "/work/job-dashboard",
+        format: "post",
+        source: "Mohit Dewan",
+        time: "10 min",
+        blurb:
+          "If your capstone is a data-pipeline-with-judgment shape, start from this architecture.",
+      },
+      {
+        label: "MCP Server — agent + tool surface template",
+        url: "/work/mcp-server",
+        format: "post",
+        source: "Mohit Dewan",
+        time: "10 min",
+        blurb:
+          "If your capstone is an agent that operates on your own data or system, start from this architecture.",
+      },
+      {
+        label: "Forge — data-product-with-no-LLM template",
+        url: "/work/forge",
+        format: "post",
+        source: "Mohit Dewan",
+        time: "10 min",
+        blurb:
+          "If your capstone might not need a model at all, read this before you reach for one.",
+      },
+    ],
+  },
+];
+
 export function getStage(stageId: string): Module[] | null {
   if (stageId === "stage-1") return stage1Modules;
   if (stageId === "stage-2") return stage2Modules;
+  if (stageId === "stage-3") return stage3Modules;
   return null;
 }

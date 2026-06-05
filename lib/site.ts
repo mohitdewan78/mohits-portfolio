@@ -100,7 +100,7 @@ export const trailTiers = [
     title: "Agents, MCP, and evals at scale",
     blurb:
       "The patterns and tradeoffs you'll bump into once your project gets ambitious — and a capstone where you actually build something agentic.",
-    status: "in-progress",
+    status: "live",
     recommendedLevel: "advanced",
   },
 ] as const;

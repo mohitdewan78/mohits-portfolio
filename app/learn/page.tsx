@@ -1,7 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { trailTiers, trailIntro } from "@/lib/site";
-import { stage1Modules, stage2Modules, type Level } from "@/lib/learn";
+import {
+  stage1Modules,
+  stage2Modules,
+  stage3Modules,
+  type Level,
+} from "@/lib/learn";
 import { PreferenceBar } from "@/components/PreferenceBar";
 import { StageProgress } from "@/components/StageProgress";
 import { StageRecommendedBadge } from "@/components/RecommendedBadge";
@@ -16,7 +21,7 @@ export const metadata: Metadata = {
 const stageModuleIds: Record<string, string[]> = {
   "stage-1": stage1Modules.map((m) => m.id),
   "stage-2": stage2Modules.map((m) => m.id),
-  "stage-3": [],
+  "stage-3": stage3Modules.map((m) => m.id),
 };
 
 export default function LearnHub() {
