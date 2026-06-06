@@ -98,49 +98,77 @@ body {
   transition: stroke-dashoffset 700ms cubic-bezier(0.2, 0.6, 0.2, 1);
 }
 
-/* Hero spark (Phase 8) — constellation of glowing embers.
-   Each dot pulses independently (scale + opacity), creating a twinkle.
-   Continuous, atmospheric, no synchronized choreography. The whole field
-   gently floats up and down on a longer cycle for added life. */
-.animate .hero-spark .spark-dot {
-  animation-name: spark-breath;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-fill-mode: both;
-  /* animation-duration and -delay come from inline style per-dot */
+/* Hero ribbon (Phase 8) — flowing organic loop.
+   - A bright terracotta current flows clockwise around the ribbon.
+   - A teal current drifts counter-clockwise underneath, slower.
+   - Four milestone embers along the path each breathe independently.
+   - The whole composition gently drifts on a 16s cycle for ambient life.
+   Path length is approximately 770 (used to size the dash gaps so only
+   one "dash" travels the loop at a time). */
+.animate .hero-ribbon .ribbon-current-terracotta {
+  animation: ribbon-flow 7s linear infinite;
 }
-@keyframes spark-breath {
-  0%, 100% {
-    opacity: 0.55;
-    transform: scale(0.9);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.08);
+@keyframes ribbon-flow {
+  to {
+    stroke-dashoffset: -770;
   }
 }
 
-/* Whole-constellation slow drift — adds the "alive" feel. */
-.animate .hero-spark .spark-dots {
-  animation: spark-drift 14s ease-in-out infinite;
+.animate .hero-ribbon .ribbon-current-teal {
+  animation: ribbon-flow-back 12s linear infinite;
+}
+@keyframes ribbon-flow-back {
+  to {
+    stroke-dashoffset: 770;
+  }
+}
+
+.animate .hero-ribbon .ribbon-base {
+  animation: ribbon-base-pulse 9s ease-in-out infinite;
+}
+@keyframes ribbon-base-pulse {
+  0%, 100% { stroke-opacity: 0.16; }
+  50%      { stroke-opacity: 0.30; }
+}
+
+.animate .hero-ribbon .ribbon-milestone {
+  animation-name: ribbon-ember-breath;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  /* duration + delay come from inline style per-milestone */
+}
+@keyframes ribbon-ember-breath {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.07);
+  }
+}
+
+/* Whole composition slow drift */
+.animate .hero-ribbon svg {
+  animation: ribbon-drift 16s ease-in-out infinite;
   transform-origin: 170px 170px;
 }
-@keyframes spark-drift {
+@keyframes ribbon-drift {
   0%, 100% {
     transform: translateY(0) rotate(0deg);
   }
   50% {
-    transform: translateY(-4px) rotate(0.6deg);
+    transform: translateY(-5px) rotate(-0.8deg);
   }
 }
 
-/* Connector lines fade gently in and out. */
-.animate .hero-spark .spark-lines line {
-  animation: spark-lines-fade 9s ease-in-out infinite;
-}
-@keyframes spark-lines-fade {
-  0%, 100% { stroke-opacity: 0.08; }
-  50%      { stroke-opacity: 0.28; }
+.hero-ribbon .ribbon-label {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 11px;
+  font-style: italic;
+  fill: var(--color-ink-muted);
+  letter-spacing: 0.03em;
 }
 
 /* Safety net: if reduce-motion overrides slip through, nuke all motion. */
@@ -151,9 +179,11 @@ body {
   .reveal-mermaid svg line,
   .reveal-mermaid svg polyline,
   .reveal-mermaid svg polygon,
-  .hero-spark .spark-dot,
-  .hero-spark .spark-dots,
-  .hero-spark .spark-lines line {
+  .hero-ribbon svg,
+  .hero-ribbon .ribbon-base,
+  .hero-ribbon .ribbon-current-terracotta,
+  .hero-ribbon .ribbon-current-teal,
+  .hero-ribbon .ribbon-milestone {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
