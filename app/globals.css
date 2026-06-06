@@ -109,7 +109,9 @@ body {
 }
 @keyframes ribbon-flow {
   to {
-    stroke-dashoffset: -770;
+    /* Path circumference: 2π × 110 ≈ 691. One dashoffset cycle = one
+       full revolution of the loop. */
+    stroke-dashoffset: -691;
   }
 }
 
@@ -142,7 +144,7 @@ body {
 /* Whole composition slow drift */
 .animate .hero-ribbon svg {
   animation: ribbon-drift 16s ease-in-out infinite;
-  transform-origin: 200px 170px;
+  transform-origin: 220px 170px;
 }
 @keyframes ribbon-drift {
   0%, 100% {

@@ -17,16 +17,15 @@
  * `.animate` (only set pre-paint when reduce-motion is off).
  */
 
-// Asymmetric closed bezier loop, centered around (200, 170).
-// Shifted slightly to the right of viewBox center to make room for the
-// "Ship" label on the left. Path length is approximately 770 — used to
-// size the dash gap for the flowing current.
+// Perfect clockwise circle, centered at (220, 170), r=110.
+// Two arc commands forming a closed circle. Drawn clockwise so the dash
+// animation moves discover → prototype → eval → ship, the natural order
+// of the shipping loop.
+// Circumference: 2π × 110 ≈ 691.
 const RIBBON_PATH =
-  "M 200 60 " +
-  "C 280 55 326 116 316 180 " +
-  "C 312 236 260 290 192 274 " +
-  "C 126 290 74 226 86 164 " +
-  "C 92 104 136 56 200 60 Z";
+  "M 220 60 " +
+  "A 110 110 0 0 1 220 280 " +
+  "A 110 110 0 0 1 220 60 Z";
 
 type Milestone = {
   label: string;
@@ -49,32 +48,32 @@ type Milestone = {
 const MILESTONES: Milestone[] = [
   {
     label: "Discover",
-    cx: 200, cy: 60,
-    lx: 200, ly: 28, anchor: "middle",
+    cx: 220, cy: 60,
+    lx: 220, ly: 30, anchor: "middle",
     color: "#b5482a", // terracotta
     haloId: "halo-discover",
     duration: 4.6, delay: 0,
   },
   {
     label: "Prototype",
-    cx: 316, cy: 180,
-    lx: 334, ly: 184, anchor: "start",
+    cx: 330, cy: 170,
+    lx: 348, ly: 174, anchor: "start",
     color: "#c08a3e", // ochre / mustard
     haloId: "halo-prototype",
     duration: 5.2, delay: -1.4,
   },
   {
     label: "Eval",
-    cx: 192, cy: 274,
-    lx: 192, ly: 304, anchor: "middle",
+    cx: 220, cy: 280,
+    lx: 220, ly: 308, anchor: "middle",
     color: "#2d5d57", // teal
     haloId: "halo-eval",
     duration: 4.0, delay: -2.6,
   },
   {
     label: "Ship",
-    cx: 86, cy: 164,
-    lx: 68, ly: 168, anchor: "end",
+    cx: 110, cy: 170,
+    lx: 92, ly: 174, anchor: "end",
     color: "#7a3e5a", // plum / burgundy
     haloId: "halo-ship",
     duration: 5.4, delay: -0.7,
@@ -85,31 +84,31 @@ export function HeroRibbon() {
   return (
     <div className="hero-ribbon w-full max-w-[300px] sm:max-w-[380px] mx-auto">
       <svg
-        viewBox="0 0 420 340"
+        viewBox="0 0 440 340"
         className="w-full h-auto block overflow-visible"
         aria-hidden="true"
         role="img"
       >
         <defs>
-          {/* Per-milestone halo gradients */}
+          {/* Per-milestone halo gradients — softer than before */}
           {MILESTONES.map((m) => (
             <radialGradient key={m.haloId} id={m.haloId}>
-              <stop offset="0%"   stopColor={m.color} stopOpacity="0.85" />
-              <stop offset="40%"  stopColor={m.color} stopOpacity="0.32" />
+              <stop offset="0%"   stopColor={m.color} stopOpacity="0.6" />
+              <stop offset="45%"  stopColor={m.color} stopOpacity="0.18" />
               <stop offset="100%" stopColor={m.color} stopOpacity="0" />
             </radialGradient>
           ))}
 
           {/* Ambient warm wash behind everything */}
-          <radialGradient id="ribbon-ambient" cx="48%" cy="50%" r="55%">
-            <stop offset="0%"   stopColor="#b5482a" stopOpacity="0.08" />
+          <radialGradient id="ribbon-ambient" cx="50%" cy="50%" r="55%">
+            <stop offset="0%"   stopColor="#b5482a" stopOpacity="0.07" />
             <stop offset="70%"  stopColor="#b5482a" stopOpacity="0.02" />
             <stop offset="100%" stopColor="#b5482a" stopOpacity="0" />
           </radialGradient>
         </defs>
 
         {/* Ambient wash */}
-        <rect width="420" height="340" fill="url(#ribbon-ambient)" />
+        <rect width="440" height="340" fill="url(#ribbon-ambient)" />
 
         {/* Base ribbon — soft visible track, thicker now */}
         <path
@@ -122,7 +121,9 @@ export function HeroRibbon() {
           strokeLinecap="round"
         />
 
-        {/* The single clockwise current — bright terracotta, thicker */}
+        {/* The single clockwise current — bright terracotta, thicker.
+            Path circumference is ≈691; dash 70 + gap 621 = 691, so exactly
+            one dash is visible at a time and the animation loops cleanly. */}
         <path
           d={RIBBON_PATH}
           className="ribbon-current"
@@ -130,7 +131,7 @@ export function HeroRibbon() {
           stroke="#b5482a"
           strokeWidth="5"
           strokeLinecap="round"
-          strokeDasharray="70 700"
+          strokeDasharray="70 621"
         />
 
         {/* Milestone embers — each with its own distinct color */}
@@ -145,18 +146,18 @@ export function HeroRibbon() {
                 transformOrigin: `${m.cx}px ${m.cy}px`,
               }}
             >
-              {/* Halo */}
+              {/* Halo — softer / smaller than before */}
               <circle
                 cx={m.cx}
                 cy={m.cy}
-                r={i === 0 ? 46 : 38}
+                r={26}
                 fill={`url(#${m.haloId})`}
               />
               {/* Core */}
               <circle
                 cx={m.cx}
                 cy={m.cy}
-                r={i === 0 ? 7 : 6}
+                r={6}
                 fill={m.color}
               />
               {/* Label — bold italic Fraunces */}
