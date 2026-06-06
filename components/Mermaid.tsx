@@ -73,6 +73,53 @@ export function Mermaid({ chart, caption }: Props) {
     };
   }, [chart]);
 
+  // After the SVG mounts, animate each stroked element drawing in when the
+  // figure enters the viewport. Respects prefers-reduced-motion.
+  useEffect(() => {
+    if (!svg) return;
+    const fig = ref.current;
+    if (!fig) return;
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const strokes = Array.from(
+      fig.querySelectorAll<SVGGeometryElement>(
+        "path, line, polyline, polygon",
+      ),
+    );
+    if (strokes.length === 0) return;
+
+    // Pre-hide every stroked element. CSS handles the transition timing.
+    strokes.forEach((el, i) => {
+      let length = 0;
+      try {
+        length = el.getTotalLength();
+      } catch {
+        // Some browsers throw on filled-only elements; just skip those.
+        return;
+      }
+      if (length === 0) return;
+      el.style.strokeDasharray = String(length);
+      el.style.strokeDashoffset = String(length);
+      el.style.transitionDelay = `${i * 60}ms`;
+    });
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          strokes.forEach((el) => {
+            el.style.strokeDashoffset = "0";
+          });
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -10% 0px" },
+    );
+
+    observer.observe(fig);
+    return () => observer.disconnect();
+  }, [svg]);
+
   if (error) {
     return (
       <div className="my-8 p-4 border border-terracotta/40 text-sm text-terracotta">
@@ -82,7 +129,7 @@ export function Mermaid({ chart, caption }: Props) {
   }
 
   return (
-    <figure className="my-10">
+    <figure className="my-10 reveal-mermaid">
       <div
         ref={ref}
         className="overflow-x-auto [&_svg]:mx-auto [&_svg]:max-w-full [&_svg]:h-auto"

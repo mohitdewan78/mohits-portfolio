@@ -5,6 +5,7 @@ import type { Module, Resource } from "@/lib/learn";
 import { useLearnPrefs } from "@/components/LearnPrefsProvider";
 import { ModuleCheckbox } from "@/components/ModuleCheckbox";
 import { ModuleMatchedBadge } from "@/components/RecommendedBadge";
+import { Reveal } from "@/components/Reveal";
 
 function formatIcon(format: Resource["format"]): string {
   switch (format) {
@@ -76,11 +77,12 @@ export function ModuleList({ modules }: { modules: Module[] }) {
       )}
 
       <ol className="space-y-20">
-        {visible.map((m) => {
+        {visible.map((m, vIdx) => {
           const i = modules.indexOf(m);
           const isDone = hydrated && completed.includes(m.id);
           return (
-            <li key={m.id} id={m.id}>
+            <li key={m.id} id={m.id} className="scroll-mt-8">
+              <Reveal delay={Math.min(vIdx, 4) * 80}>
               <div className="flex items-baseline gap-6 mb-6 flex-wrap">
                 <span
                   className={
@@ -136,6 +138,7 @@ export function ModuleList({ modules }: { modules: Module[] }) {
                   <ModuleCheckbox moduleId={m.id} />
                 </div>
               </div>
+              </Reveal>
             </li>
           );
         })}

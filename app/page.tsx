@@ -2,6 +2,7 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 import { Opinions } from "@/components/Opinions";
 import { CoffeeChatCard } from "@/components/CoffeeChatCard";
+import { Reveal } from "@/components/Reveal";
 
 export default function Home() {
   return (
@@ -34,10 +35,14 @@ export default function Home() {
       </section>
 
       {/* Block 2 — Opinions */}
-      <Opinions />
+      <Reveal>
+        <Opinions />
+      </Reveal>
 
       {/* Block 3 — Coffee chat */}
-      <CoffeeChatCard />
+      <Reveal>
+        <CoffeeChatCard />
+      </Reveal>
     </div>
   );
 }

@@ -1,16 +1,12 @@
 import Link from "next/link";
 import { nav, site } from "@/lib/site";
+import { WordmarkLink } from "@/components/WordmarkLink";
 
 export function Nav() {
   return (
     <header className="border-b hairline">
       <div className="mx-auto max-w-5xl px-6 py-5 flex items-center justify-between">
-        <Link
-          href="/"
-          className="font-signature text-[26px] sm:text-[30px] leading-none font-semibold text-ink hover:text-terracotta transition-colors"
-        >
-          {site.name}
-        </Link>
+        <WordmarkLink>{site.name}</WordmarkLink>
         <ul className="flex items-center gap-6 text-sm">
           {nav
             .filter((item) => item.href !== "/")

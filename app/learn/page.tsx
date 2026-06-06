@@ -11,6 +11,7 @@ import { PreferenceBar } from "@/components/PreferenceBar";
 import { StageProgress } from "@/components/StageProgress";
 import { StageRecommendedBadge } from "@/components/RecommendedBadge";
 import { ResetProgress } from "@/components/ResetProgress";
+import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Learn",
@@ -84,7 +85,12 @@ export default function LearnHub() {
           );
 
           return (
-            <li key={tier.id} className="border-t hairline pt-8">
+            <Reveal
+              key={tier.id}
+              as="li"
+              delay={i * 100}
+              className="border-t hairline pt-8"
+            >
               {isLive ? (
                 <Link href={`/learn/${tier.id}`} className="group block">
                   {inner}
@@ -92,7 +98,7 @@ export default function LearnHub() {
               ) : (
                 <div className="opacity-60">{inner}</div>
               )}
-            </li>
+            </Reveal>
           );
         })}
       </ol>

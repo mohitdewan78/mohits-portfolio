@@ -1,4 +1,5 @@
 import { homeOpinions } from "@/lib/site";
+import { Reveal } from "@/components/Reveal";
 
 export function Opinions() {
   return (
@@ -13,8 +14,10 @@ export function Opinions() {
       </div>
       <ol className="space-y-10">
         {homeOpinions.map((o, i) => (
-          <li
+          <Reveal
             key={o.title}
+            as="li"
+            delay={i * 80}
             className="grid grid-cols-[2rem_1fr] sm:grid-cols-[3rem_1fr] gap-4 sm:gap-8 pt-8 border-t hairline first:pt-0 first:border-0"
           >
             <span className="font-display text-2xl sm:text-3xl text-terracotta tabular-nums">
@@ -26,7 +29,7 @@ export function Opinions() {
               </h3>
               <p className="text-ink-soft leading-relaxed">{o.body}</p>
             </div>
-          </li>
+          </Reveal>
         ))}
       </ol>
     </section>

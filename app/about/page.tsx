@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
 import { CoffeeChatCard } from "@/components/CoffeeChatCard";
+import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "About",
@@ -54,7 +55,7 @@ export default function AboutPage() {
         </h1>
       </header>
 
-      <section className="space-y-5 text-lg text-ink-soft leading-relaxed mb-16 pb-16 border-b hairline">
+      <Reveal as="section" className="space-y-5 text-lg text-ink-soft leading-relaxed mb-16 pb-16 border-b hairline">
         <p>
           I&apos;m {site.name}, based in Pittsburgh. By day I&apos;m a product
           manager working on AI features inside real enterprise workflows.
@@ -80,9 +81,9 @@ export default function AboutPage() {
           couldn&apos;t tell which parts of the noise were signal. If
           that&apos;s where you are, start there.
         </p>
-      </section>
+      </Reveal>
 
-      <section className="mb-16 pb-16 border-b hairline">
+      <Reveal as="section" className="mb-16 pb-16 border-b hairline">
         <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-3">
           What each project taught me
         </h2>
@@ -110,9 +111,9 @@ export default function AboutPage() {
             </li>
           ))}
         </ol>
-      </section>
+      </Reveal>
 
-      <section className="mb-16 pb-16 border-b hairline">
+      <Reveal as="section" className="mb-16 pb-16 border-b hairline">
         <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-4">
           Elsewhere
         </h2>
@@ -151,9 +152,11 @@ export default function AboutPage() {
             </a>
           </li>
         </ul>
-      </section>
+      </Reveal>
 
-      <CoffeeChatCard />
+      <Reveal>
+        <CoffeeChatCard />
+      </Reveal>
     </div>
   );
 }

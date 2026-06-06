@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { loadAllMetas } from "@/lib/work";
+import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -28,8 +29,13 @@ export default async function WorkIndex() {
       </header>
 
       <ol className="space-y-12">
-        {items.map((item) => (
-          <li key={item.slug} className="border-t hairline pt-8">
+        {items.map((item, i) => (
+          <Reveal
+            key={item.slug}
+            as="li"
+            delay={i * 100}
+            className="border-t hairline pt-8"
+          >
             <Link
               href={`/work/${item.slug}`}
               className="group block"
@@ -61,7 +67,7 @@ export default async function WorkIndex() {
                 ))}
               </div>
             </Link>
-          </li>
+          </Reveal>
         ))}
       </ol>
     </div>

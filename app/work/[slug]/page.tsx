@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { allSlugs, loadCaseStudy } from "@/lib/work";
+import { Reveal } from "@/components/Reveal";
 
 export const dynamicParams = false;
 
@@ -99,9 +100,9 @@ export default async function CaseStudyPage({
         )}
       </header>
 
-      <div className="case-study-body">
+      <Reveal as="div" className="case-study-body">
         <Body />
-      </div>
+      </Reveal>
 
       <footer className="mt-20 pt-10 border-t hairline">
         <Link

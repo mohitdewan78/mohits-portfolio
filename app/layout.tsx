@@ -62,6 +62,16 @@ export default function RootLayout({
       lang="en"
       className={`${fraunces.variable} ${hanken.variable} ${jetbrainsMono.variable} ${bricolage.variable} ${caveat.variable} h-full antialiased`}
     >
+      <head>
+        {/* Add .animate to <html> before first paint when the user hasn't
+            requested reduce-motion. The Reveal CSS is gated on this class so
+            no-JS / reduce-motion visitors see content immediately. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('animate');}}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <Nav />
         <main className="flex-1">{children}</main>
