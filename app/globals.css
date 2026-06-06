@@ -98,6 +98,66 @@ body {
   transition: stroke-dashoffset 700ms cubic-bezier(0.2, 0.6, 0.2, 1);
 }
 
+/* Iteration loop (Phase 8) — hero diagram.
+   - ring stroke draws clockwise from top over 1400ms
+   - nodes fade in staggered to match the stroke arrival
+   - terracotta dot orbits the loop continuously at 8s/rev after the
+     draw-in completes (1400ms delay)
+   Circumference of the r=110 circle: 2 * PI * 110 ≈ 691.15 */
+.iteration-loop .ring {
+  stroke-dasharray: 692;
+  stroke-dashoffset: 692;
+}
+.animate .iteration-loop[data-revealed="true"] .ring {
+  animation: ring-draw 1400ms cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
+}
+@keyframes ring-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.iteration-loop .nodes .node {
+  opacity: 0;
+}
+.animate .iteration-loop[data-revealed="true"] .nodes .node {
+  animation: loop-node-in 600ms cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
+}
+@keyframes loop-node-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.iteration-loop .node-label {
+  font-family: var(--font-hanken), system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  fill: var(--color-ink-muted);
+}
+
+.iteration-loop .orbit {
+  opacity: 0;
+}
+.animate .iteration-loop[data-revealed="true"] .orbit {
+  animation:
+    loop-orbit-fade-in 400ms ease-out 1400ms forwards,
+    loop-orbit 8s linear 1400ms infinite;
+}
+@keyframes loop-orbit-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes loop-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Safety net: if reduce-motion overrides slip through, nuke all motion. */
 @media (prefers-reduced-motion: reduce) {
   .reveal,
@@ -105,7 +165,10 @@ body {
   .reveal-mermaid svg path,
   .reveal-mermaid svg line,
   .reveal-mermaid svg polyline,
-  .reveal-mermaid svg polygon {
+  .reveal-mermaid svg polygon,
+  .iteration-loop .ring,
+  .iteration-loop .nodes .node,
+  .iteration-loop .orbit {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
