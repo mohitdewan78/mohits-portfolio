@@ -37,7 +37,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="lg:shrink-0 lg:w-[340px]">
+          <div className="lg:shrink-0 lg:w-[380px]">
             <HeroRibbon />
           </div>
         </div>

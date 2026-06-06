@@ -99,13 +99,12 @@ body {
 }
 
 /* Hero ribbon (Phase 8) — flowing organic loop.
-   - A bright terracotta current flows clockwise around the ribbon.
-   - A teal current drifts counter-clockwise underneath, slower.
-   - Four milestone embers along the path each breathe independently.
-   - The whole composition gently drifts on a 16s cycle for ambient life.
-   Path length is approximately 770 (used to size the dash gaps so only
-   one "dash" travels the loop at a time). */
-.animate .hero-ribbon .ribbon-current-terracotta {
+   - A single bright terracotta current flows clockwise around the ribbon
+     (this is the actual order of the loop: discover → prototype → eval → ship).
+   - The base track gently pulses in opacity.
+   - Four milestone embers each breathe independently on their own timer.
+   - Whole composition slowly drifts for ambient life. */
+.animate .hero-ribbon .ribbon-current {
   animation: ribbon-flow 7s linear infinite;
 }
 @keyframes ribbon-flow {
@@ -114,21 +113,12 @@ body {
   }
 }
 
-.animate .hero-ribbon .ribbon-current-teal {
-  animation: ribbon-flow-back 12s linear infinite;
-}
-@keyframes ribbon-flow-back {
-  to {
-    stroke-dashoffset: 770;
-  }
-}
-
 .animate .hero-ribbon .ribbon-base {
   animation: ribbon-base-pulse 9s ease-in-out infinite;
 }
 @keyframes ribbon-base-pulse {
-  0%, 100% { stroke-opacity: 0.16; }
-  50%      { stroke-opacity: 0.30; }
+  0%, 100% { stroke-opacity: 0.18; }
+  50%      { stroke-opacity: 0.34; }
 }
 
 .animate .hero-ribbon .ribbon-milestone {
@@ -140,35 +130,36 @@ body {
 }
 @keyframes ribbon-ember-breath {
   0%, 100% {
-    opacity: 0.7;
-    transform: scale(0.94);
+    opacity: 0.78;
+    transform: scale(0.95);
   }
   50% {
     opacity: 1;
-    transform: scale(1.07);
+    transform: scale(1.06);
   }
 }
 
 /* Whole composition slow drift */
 .animate .hero-ribbon svg {
   animation: ribbon-drift 16s ease-in-out infinite;
-  transform-origin: 170px 170px;
+  transform-origin: 200px 170px;
 }
 @keyframes ribbon-drift {
   0%, 100% {
     transform: translateY(0) rotate(0deg);
   }
   50% {
-    transform: translateY(-5px) rotate(-0.8deg);
+    transform: translateY(-4px) rotate(-0.5deg);
   }
 }
 
 .hero-ribbon .ribbon-label {
   font-family: var(--font-fraunces), Georgia, serif;
-  font-size: 11px;
+  font-size: 15px;
+  font-weight: 700;
   font-style: italic;
-  fill: var(--color-ink-muted);
-  letter-spacing: 0.03em;
+  fill: var(--color-ink);
+  letter-spacing: 0.01em;
 }
 
 /* Safety net: if reduce-motion overrides slip through, nuke all motion. */
@@ -181,8 +172,7 @@ body {
   .reveal-mermaid svg polygon,
   .hero-ribbon svg,
   .hero-ribbon .ribbon-base,
-  .hero-ribbon .ribbon-current-terracotta,
-  .hero-ribbon .ribbon-current-teal,
+  .hero-ribbon .ribbon-current,
   .hero-ribbon .ribbon-milestone {
     opacity: 1 !important;
     transform: none !important;
