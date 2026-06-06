@@ -3,7 +3,7 @@ import { site } from "@/lib/site";
 import { Opinions } from "@/components/Opinions";
 import { CoffeeChatCard } from "@/components/CoffeeChatCard";
 import { Reveal } from "@/components/Reveal";
-import { IterationLoop } from "@/components/IterationLoop";
+import { HeroSpark } from "@/components/HeroSpark";
 
 export default function Home() {
   return (
@@ -38,7 +38,7 @@ export default function Home() {
           </div>
 
           <div className="lg:shrink-0 lg:w-[340px]">
-            <IterationLoop />
+            <HeroSpark />
           </div>
         </div>
       </section>
