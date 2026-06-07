@@ -36,7 +36,7 @@ export default async function CaseStudyPage({
   const { default: Body, meta } = mod;
 
   return (
-    <article className="mx-auto max-w-3xl px-4 sm:px-6 pt-20 pb-24">
+    <article className="mx-auto max-w-4xl px-4 sm:px-8 pt-20 pb-24">
       <header className="mb-12 pb-12 border-b hairline">
         <p className="font-display italic text-ink-muted mb-4 text-sm">
           <Link href="/work" className="hover:text-terracotta">
