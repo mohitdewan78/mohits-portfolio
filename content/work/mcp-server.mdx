@@ -27,17 +27,26 @@ I picked the most boring domain on purpose: local document read/edit. No externa
 
 The server exposes a small surface — list, read, search, write — over the MCP stdio transport. Each tool has a Pydantic schema that doubles as the model-facing contract. I tested it through MCP Inspector before pointing a model at it, which let me iterate on the tool ergonomics without burning tokens.
 
-```
-┌─────────────┐     stdio       ┌───────────────────┐
-│   Claude    │ ◄────────────►  │   MCP Server      │
-│   (client)  │                 │   (Python)        │
-└─────────────┘                 ├───────────────────┤
-                                │  list / read /    │
-                                │  search / write   │
-                                ├───────────────────┤
-                                │  Local FS         │
-                                └───────────────────┘
-```
+<Mermaid
+  chart={`flowchart LR
+    CL["Claude\n(MCP client)"]
+    INSP["MCP Inspector\n(dev eval loop)"]
+
+    subgraph SRV["MCP Server — Python"]
+      direction TB
+      TOOLS["list · read · search · write\n(Pydantic schemas)"]
+      ERR["Error handler\n(clean path + message)"]
+      TOOLS --> ERR
+    end
+
+    FS[("Local filesystem\n.md · .txt · .json")]
+
+    CL <-->|"stdio transport"| SRV
+    INSP <-->|"stdio transport"| SRV
+    SRV <--> FS
+  `}
+  caption="Claude talks to the server over stdio; MCP Inspector was the eval loop before any model touched it."
+/>
 
 The tools are small on purpose. "Search" returns paths plus a one-line excerpt — not full content — so the model has to decide what to read next instead of getting context dumped on it. That single decision shaped how the model used the rest of the surface.
 
