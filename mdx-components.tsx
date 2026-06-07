@@ -20,7 +20,7 @@ export function useMDXComponents(
       <h3 className="font-display text-xl mt-8 mb-3">{children}</h3>
     ),
     p: ({ children }) => (
-      <p className="text-ink-soft leading-relaxed my-4">{children}</p>
+      <p className="text-ink-soft leading-relaxed my-4 text-[18px]">{children}</p>
     ),
     a: ({ children, href }) => (
       <a
