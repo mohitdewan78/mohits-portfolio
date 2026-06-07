@@ -5,6 +5,7 @@ import type { Module, Resource } from "@/lib/learn";
 import { useLearnPrefs } from "@/components/LearnPrefsProvider";
 import { ModuleCheckbox } from "@/components/ModuleCheckbox";
 import { ModuleMatchedBadge } from "@/components/RecommendedBadge";
+import { ModuleTldr } from "@/components/ModuleTldr";
 import { Reveal } from "@/components/Reveal";
 
 function formatIcon(format: Resource["format"]): string {
@@ -109,6 +110,8 @@ export function ModuleList({ modules }: { modules: Module[] }) {
                 <p className="text-ink-soft leading-relaxed text-lg">
                   {m.note}
                 </p>
+
+                <ModuleTldr moduleId={m.id} />
 
                 {m.linkedProject && (
                   <p className="mt-4">

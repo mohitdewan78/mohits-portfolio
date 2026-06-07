@@ -11,6 +11,7 @@ import { PreferenceBar } from "@/components/PreferenceBar";
 import { StageProgress } from "@/components/StageProgress";
 import { StageRecommendedBadge } from "@/components/RecommendedBadge";
 import { ResetProgress } from "@/components/ResetProgress";
+import { TrailGuide } from "@/components/TrailGuide";
 import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
@@ -41,6 +42,8 @@ export default function LearnHub() {
       </header>
 
       <PreferenceBar />
+
+      <TrailGuide />
 
       <ol className="space-y-10">
         {trailTiers.map((tier, i) => {
