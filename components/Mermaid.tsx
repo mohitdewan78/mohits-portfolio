@@ -36,17 +36,21 @@ export function Mermaid({ chart, caption }: Props) {
           theme: "base",
           fontFamily: "var(--font-fraunces), Georgia, serif",
           themeVariables: {
+            // Nodes: warm sand — clearly visible against the paper background
             background: "#faf7f0",
-            primaryColor: "#faf7f0",
+            primaryColor: "#e8dfd0",
             primaryTextColor: "#1c1a16",
-            primaryBorderColor: "#1c1a16",
-            lineColor: "#1c1a16",
-            secondaryColor: "#f0ebe0",
-            tertiaryColor: "#faf7f0",
-            mainBkg: "#faf7f0",
+            primaryBorderColor: "#6b5040",
+            mainBkg: "#e8dfd0",
+            // Edges and labels
+            lineColor: "#6b5040",
             edgeLabelBackground: "#faf7f0",
-            // Terracotta accent for nodes with the .accent class
-            // (use in chart: `:::accent` after a node)
+            // Subgraphs: one shade darker than nodes
+            secondaryColor: "#ddd4c2",
+            tertiaryColor: "#f0ebe0",
+            clusterBkg: "#ddd4c2",
+            clusterBorder: "#6b5040",
+            // Terracotta accent (use :::accent after a node id in the chart)
             cScale0: "#b5482a",
           },
           flowchart: {

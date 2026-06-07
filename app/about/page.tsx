@@ -45,118 +45,125 @@ const projectReflections: ReadonlyArray<{
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 pt-24 pb-20">
-      <header className="mb-16">
-        <p className="font-display italic text-ink-muted mb-4 text-sm">
-          About
-        </p>
-        <h1 className="font-display text-5xl sm:text-6xl tracking-tight leading-[1.05]">
-          A PM who builds on the side.
-        </h1>
-      </header>
+    <div className="mx-auto max-w-5xl px-4 sm:px-8 pt-24 pb-20">
+      <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-20 lg:items-start">
 
-      <Reveal as="section" className="space-y-5 text-lg text-ink-soft leading-relaxed mb-16 pb-16 border-b hairline">
-        <p>
-          I&apos;m {site.name}, based in Pittsburgh. By day I&apos;m a product
-          manager working on AI features inside real enterprise workflows.
-          What this site is about is the *other* thing — the personal
-          projects I build with AI on the weekend, and the playbook I&apos;ve
-          assembled along the way.
-        </p>
-        <p>
-          The pattern started simply. Every time I read about a new AI
-          capability — agents, MCP, RAG, evals — I&apos;d notice I didn&apos;t
-          really understand it until I&apos;d built something with it. Not a
-          tutorial. Not a demo. Something I actually used. The four projects
-          on this site each started as &quot;I want to understand X
-          properly&quot; and ended up being things I depend on.
-        </p>
-        <p>
-          The trail on{" "}
-          <Link href="/learn" className="text-terracotta underline underline-offset-2 hover:no-underline">
-            /learn
-          </Link>{" "}
-          is the order I wish someone had walked me through. It&apos;s for the
-          version of me who knew there was something to AI products but
-          couldn&apos;t tell which parts of the noise were signal. If
-          that&apos;s where you are, start there.
-        </p>
-      </Reveal>
+        {/* Mobile: full header. Desktop: sticky sidebar. */}
+        <header className="mb-12 lg:sticky lg:top-20 lg:mb-0">
+          <p className="font-display italic text-ink-muted mb-4 text-sm">
+            About
+          </p>
+          <h1 className="font-display text-5xl sm:text-6xl lg:text-3xl tracking-tight leading-[1.05] lg:leading-[1.15]">
+            A PM who builds on the side.
+          </h1>
+        </header>
 
-      <Reveal as="section" className="mb-16 pb-16 border-b hairline">
-        <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-3">
-          What each project taught me
-        </h2>
-        <p className="text-ink-muted text-sm mb-10">
-          The case studies have the architecture. These are the lessons that
-          stuck.
-        </p>
-        <ol className="space-y-10">
-          {projectReflections.map((p, i) => (
-            <li key={p.slug} className="grid grid-cols-[2rem_1fr] sm:grid-cols-[3rem_1fr] gap-4 sm:gap-8">
-              <span className="font-display text-2xl text-terracotta tabular-nums">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <h3 className="font-display text-xl text-ink mb-2">
-                  <Link
-                    href={`/work/${p.slug}`}
-                    className="hover:text-terracotta transition-colors"
-                  >
-                    {p.title} →
-                  </Link>
-                </h3>
-                <p className="text-ink-soft leading-relaxed">{p.reflection}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </Reveal>
+        <div>
+          <Reveal as="section" className="space-y-5 text-lg text-ink-soft leading-relaxed mb-16 pb-16 border-b hairline">
+            <p>
+              I&apos;m {site.name}, based in Pittsburgh. By day I&apos;m a product
+              manager working on AI features inside real enterprise workflows.
+              What this site is about is the *other* thing — the personal
+              projects I build with AI on the weekend, and the playbook I&apos;ve
+              assembled along the way.
+            </p>
+            <p>
+              The pattern started simply. Every time I read about a new AI
+              capability — agents, MCP, RAG, evals — I&apos;d notice I didn&apos;t
+              really understand it until I&apos;d built something with it. Not a
+              tutorial. Not a demo. Something I actually used. The four projects
+              on this site each started as &quot;I want to understand X
+              properly&quot; and ended up being things I depend on.
+            </p>
+            <p>
+              The trail on{" "}
+              <Link href="/learn" className="text-terracotta underline underline-offset-2 hover:no-underline">
+                /learn
+              </Link>{" "}
+              is the order I wish someone had walked me through. It&apos;s for the
+              version of me who knew there was something to AI products but
+              couldn&apos;t tell which parts of the noise were signal. If
+              that&apos;s where you are, start there.
+            </p>
+          </Reveal>
 
-      <Reveal as="section" className="mb-16 pb-16 border-b hairline">
-        <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-4">
-          Elsewhere
-        </h2>
-        <p className="text-ink-soft leading-relaxed mb-6 max-w-2xl">
-          This site is the building. For the work side — what I do
-          professionally, where I&apos;ve been, what I&apos;m looking for next —
-          LinkedIn carries that load:
-        </p>
-        <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm">
-          <li>
-            <a
-              href={site.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="text-terracotta underline underline-offset-2 hover:no-underline"
-            >
-              LinkedIn ↗
-            </a>
-          </li>
-          <li>
-            <a
-              href={site.github}
-              target="_blank"
-              rel="noreferrer"
-              className="text-terracotta underline underline-offset-2 hover:no-underline"
-            >
-              GitHub ↗
-            </a>
-          </li>
-          <li>
-            <a
-              href={`mailto:${site.email}`}
-              className="text-terracotta underline underline-offset-2 hover:no-underline"
-            >
-              Email ↗
-            </a>
-          </li>
-        </ul>
-      </Reveal>
+          <Reveal as="section" className="mb-16 pb-16 border-b hairline">
+            <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-3">
+              What each project taught me
+            </h2>
+            <p className="text-ink-muted text-sm mb-10">
+              The case studies have the architecture. These are the lessons that
+              stuck.
+            </p>
+            <ol className="space-y-10">
+              {projectReflections.map((p, i) => (
+                <li key={p.slug} className="grid grid-cols-[2rem_1fr] sm:grid-cols-[3rem_1fr] gap-4 sm:gap-8">
+                  <span className="font-display text-2xl text-terracotta tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="font-display text-xl text-ink mb-2">
+                      <Link
+                        href={`/work/${p.slug}`}
+                        className="hover:text-terracotta transition-colors"
+                      >
+                        {p.title} →
+                      </Link>
+                    </h3>
+                    <p className="text-ink-soft leading-relaxed">{p.reflection}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </Reveal>
 
-      <Reveal>
-        <CoffeeChatCard />
-      </Reveal>
+          <Reveal as="section" className="mb-16 pb-16 border-b hairline">
+            <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-4">
+              Elsewhere
+            </h2>
+            <p className="text-ink-soft leading-relaxed mb-6 max-w-2xl">
+              This site is the building. For the work side — what I do
+              professionally, where I&apos;ve been, what I&apos;m looking for next —
+              LinkedIn carries that load:
+            </p>
+            <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm">
+              <li>
+                <a
+                  href={site.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-terracotta underline underline-offset-2 hover:no-underline"
+                >
+                  LinkedIn ↗
+                </a>
+              </li>
+              <li>
+                <a
+                  href={site.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-terracotta underline underline-offset-2 hover:no-underline"
+                >
+                  GitHub ↗
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${site.email}`}
+                  className="text-terracotta underline underline-offset-2 hover:no-underline"
+                >
+                  Email ↗
+                </a>
+              </li>
+            </ul>
+          </Reveal>
+
+          <Reveal>
+            <CoffeeChatCard />
+          </Reveal>
+        </div>
+
+      </div>
     </div>
   );
 }

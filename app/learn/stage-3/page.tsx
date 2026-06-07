@@ -18,45 +18,52 @@ export const metadata: Metadata = {
 
 export default function Stage3Page() {
   return (
-    <div className="mx-auto max-w-3xl px-6 pt-20 pb-24">
-      <header className="mb-12 pb-12 border-b hairline">
-        <p className="font-display italic text-ink-muted mb-4 text-sm">
-          <Link href="/learn" className="hover:text-terracotta">
-            ← Back to the playbook
-          </Link>
-        </p>
-        <p className="font-display italic text-terracotta mb-3 text-sm tracking-widest uppercase">
-          Stage 03 · {tier.eyebrow}
-        </p>
-        <h1 className="font-display text-4xl sm:text-6xl tracking-tight leading-[1.05]">
-          {tier.title}
-        </h1>
-        <p className="mt-6 text-lg text-ink-soft leading-relaxed max-w-2xl">
-          {tier.blurb}
-        </p>
-      </header>
+    <div className="mx-auto max-w-5xl px-4 sm:px-8 pt-20 pb-24">
+      <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-20 lg:items-start">
 
-      <PreferenceBar />
+        {/* Mobile: full header. Desktop: sticky sidebar. */}
+        <header className="mb-12 pb-12 border-b hairline lg:sticky lg:top-20 lg:border-b-0 lg:pb-0 lg:mb-0">
+          <p className="font-display italic text-ink-muted mb-4 text-sm">
+            <Link href="/learn" className="hover:text-terracotta">
+              ← Back to the playbook
+            </Link>
+          </p>
+          <p className="font-display italic text-terracotta mb-3 text-sm tracking-widest uppercase">
+            Stage 03 · {tier.eyebrow}
+          </p>
+          <h1 className="font-display text-4xl sm:text-5xl lg:text-2xl tracking-tight leading-[1.05] lg:leading-[1.15]">
+            {tier.title}
+          </h1>
+          <p className="mt-6 lg:mt-3 text-lg lg:text-sm text-ink-soft leading-relaxed">
+            {tier.blurb}
+          </p>
+        </header>
 
-      <StageProgress moduleIds={moduleIds} variant="block" />
+        <div>
+          <PreferenceBar />
 
-      <div className="mb-12">
-        <MatchedOnlyToggle />
-      </div>
+          <StageProgress moduleIds={moduleIds} variant="block" />
 
-      <ModuleList modules={stage3Modules} />
+          <div className="mb-12">
+            <MatchedOnlyToggle />
+          </div>
 
-      <footer className="mt-24 pt-10 border-t hairline">
-        <div className="flex items-center justify-between gap-6 flex-wrap">
-          <Link
-            href="/learn"
-            className="text-sm text-ink-muted hover:text-terracotta underline underline-offset-2"
-          >
-            ← Back to the playbook
-          </Link>
-          <ResetProgress />
+          <ModuleList modules={stage3Modules} />
+
+          <footer className="mt-24 pt-10 border-t hairline">
+            <div className="flex items-center justify-between gap-6 flex-wrap">
+              <Link
+                href="/learn"
+                className="text-sm text-ink-muted hover:text-terracotta underline underline-offset-2"
+              >
+                ← Back to the playbook
+              </Link>
+              <ResetProgress />
+            </div>
+          </footer>
         </div>
-      </footer>
+
+      </div>
     </div>
   );
 }

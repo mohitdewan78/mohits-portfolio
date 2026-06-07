@@ -12,7 +12,7 @@ export function useMDXComponents(
       </h1>
     ),
     h2: ({ children }) => (
-      <h2 className="font-display text-2xl sm:text-3xl tracking-tight mt-12 mb-4 border-t hairline pt-8">
+      <h2 className="font-display text-2xl sm:text-3xl tracking-tight mt-12 mb-4">
         {children}
       </h2>
     ),
