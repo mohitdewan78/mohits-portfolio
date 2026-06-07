@@ -101,7 +101,7 @@ export function Mermaid({ chart, caption }: Props) {
       if (length === 0) return;
       el.style.strokeDasharray = String(length);
       el.style.strokeDashoffset = String(length);
-      el.style.transitionDelay = `${i * 60}ms`;
+      el.style.transitionDelay = `${i * 120}ms`;
     });
 
     const observer = new IntersectionObserver(
