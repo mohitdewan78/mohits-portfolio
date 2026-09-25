@@ -20,10 +20,10 @@ export default async function Home() {
   return (
     <>
       {/* Block 1 — Hero */}
-      <section className="relative overflow-hidden pt-16 sm:pt-20">
-        {/* Sized so the mask's radial fade completes inside the section —
-            any taller and the clip leaves a hard edge at the boundary. */}
-        <HeroFan className="top-[-12%] right-[-2%] h-[124%] w-[56%]" />
+      {/* No overflow clip: the fan's own mask fades it out at the bottom, and
+          the top is meant to bleed up behind the transparent nav. */}
+      <section className="relative pt-16 sm:pt-20">
+        <HeroFan className="top-[-22%] right-[-2%] h-[150%] w-[56%]" />
 
         <div className="relative z-10 mx-auto max-w-5xl px-6 pb-16">
           <p className="mb-4 text-sm font-medium text-accent">

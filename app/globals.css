@@ -112,11 +112,23 @@ html {
    on an identical frame — the flow loops with no seam and never reverses.
    Keep these durations in sync with FAN_PERIOD in HeroFan.tsx.
    --------------------------------------------------------------------------- */
-/* Fades hard toward the text side so headlines and nav stay legible, while
-   the outer corner keeps full saturation. */
+/* Two masks on nested elements rather than one composited mask — browsers
+   disagree on mask-composite / -webkit-mask-composite keywords, and getting
+   it wrong drops a mask entirely and leaves a hard edge at the element bounds.
+   Nesting multiplies them with no compositing involved.
+
+   Outer: radial, fades hard toward the text side so headlines stay legible
+   while the outer corner keeps full saturation.
+   Inner: linear, fades the bottom out before the section ends so the boundary
+   is never visible. The top bleeds up behind the transparent nav by design. */
 .hero-fan {
   -webkit-mask-image: radial-gradient(72% 74% at 82% 44%, #000 26%, transparent 76%);
   mask-image: radial-gradient(72% 74% at 82% 44%, #000 26%, transparent 76%);
+}
+
+.hero-fan > svg {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 94%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 94%);
 }
 
 .fan-layer {
