@@ -33,7 +33,7 @@ export default function LearnHub() {
 
         {/* Mobile: full header. Desktop: sticky sidebar. */}
         <header className="mb-12 lg:sticky lg:top-20 lg:mb-0">
-          <p className="font-display italic text-ink-muted mb-4 text-sm">
+          <p className="text-sm font-medium text-accent mb-4">
             The playbook
           </p>
           <h1 className="font-display text-5xl sm:text-6xl lg:text-3xl tracking-tight leading-[1.05] lg:leading-[1.15]">
@@ -58,14 +58,14 @@ export default function LearnHub() {
               const inner = (
                 <>
                   <div className="flex items-baseline gap-6 mb-3 flex-wrap">
-                    <span className="font-display text-2xl sm:text-3xl text-terracotta tabular-nums shrink-0">
+                    <span className="font-display text-2xl sm:text-3xl text-accent tabular-nums shrink-0">
                       {stageNumber}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="font-display italic text-ink-muted text-sm tracking-wide uppercase mb-1">
+                      <p className="label-mono text-ink-muted mb-1">
                         {tier.eyebrow}
                       </p>
-                      <h2 className="font-display text-2xl sm:text-3xl tracking-tight text-ink group-hover:text-terracotta transition-colors">
+                      <h2 className="font-display text-2xl sm:text-3xl tracking-tight text-ink group-hover:text-accent transition-colors">
                         {tier.title}
                       </h2>
                     </div>

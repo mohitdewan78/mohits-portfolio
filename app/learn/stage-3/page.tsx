@@ -23,12 +23,12 @@ export default function Stage3Page() {
 
         {/* Mobile: full header. Desktop: sticky sidebar. */}
         <header className="mb-12 pb-12 border-b hairline lg:sticky lg:top-20 lg:border-b-0 lg:pb-0 lg:mb-0">
-          <p className="font-display italic text-ink-muted mb-4 text-sm">
-            <Link href="/learn" className="hover:text-terracotta">
+          <p className="text-sm font-medium text-accent mb-4">
+            <Link href="/learn" className="hover:text-accent">
               ← Back to the playbook
             </Link>
           </p>
-          <p className="font-display italic text-terracotta mb-3 text-sm tracking-widest uppercase">
+          <p className="label-mono text-accent mb-3">
             Stage 03 · {tier.eyebrow}
           </p>
           <h1 className="font-display text-4xl sm:text-5xl lg:text-2xl tracking-tight leading-[1.05] lg:leading-[1.15]">
@@ -54,7 +54,7 @@ export default function Stage3Page() {
             <div className="flex items-center justify-between gap-6 flex-wrap">
               <Link
                 href="/learn"
-                className="text-sm text-ink-muted hover:text-terracotta underline underline-offset-2"
+                className="text-sm text-ink-muted hover:text-accent underline underline-offset-2"
               >
                 ← Back to the playbook
               </Link>

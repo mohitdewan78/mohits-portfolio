@@ -2,19 +2,16 @@ import { site } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="border-t hairline mt-24">
-      <div className="mx-auto max-w-5xl px-6 py-10 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between text-sm text-ink-muted">
-        <p className="font-display italic">
-          © {new Date().getFullYear()} {site.name} ·{" "}
-          <span className="not-italic font-sans text-xs tracking-wide">
-            {site.aiByline}
-          </span>
+    <footer className="border-t hairline">
+      <div className="mx-auto max-w-5xl px-6 py-9 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between text-sm text-ink-muted">
+        <p>
+          © {new Date().getFullYear()} {site.name} · {site.aiByline}
         </p>
         <ul className="flex gap-5">
           <li>
             <a
               href={`mailto:${site.email}`}
-              className="hover:text-terracotta transition-colors"
+              className="hover:text-accent transition-colors"
             >
               Email
             </a>
@@ -24,7 +21,7 @@ export function Footer() {
               href={site.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="hover:text-terracotta transition-colors"
+              className="hover:text-accent transition-colors"
             >
               LinkedIn
             </a>
@@ -34,7 +31,7 @@ export function Footer() {
               href={site.github}
               target="_blank"
               rel="noreferrer"
-              className="hover:text-terracotta transition-colors"
+              className="hover:text-accent transition-colors"
             >
               GitHub
             </a>

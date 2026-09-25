@@ -8,7 +8,7 @@ export function StageRecommendedBadge({ stageLevel }: { stageLevel: Level }) {
   const { level, hydrated } = useLearnPrefs();
   if (!hydrated || level !== stageLevel) return null;
   return (
-    <span className="text-xs uppercase tracking-wider text-terracotta border border-terracotta/40 px-2 py-0.5">
+    <span className="text-xs uppercase tracking-wider text-accent border border-accent/40 px-2 py-0.5">
       Recommended for you
     </span>
   );
@@ -19,7 +19,7 @@ export function ModuleMatchedBadge({ personas }: { personas: Persona[] }) {
   const { persona, hydrated } = useLearnPrefs();
   if (!hydrated || !persona || !personas.includes(persona)) return null;
   return (
-    <span className="text-xs uppercase tracking-wider text-terracotta border border-terracotta/40 px-2 py-0.5">
+    <span className="text-xs uppercase tracking-wider text-accent border border-accent/40 px-2 py-0.5">
       ★ For you
     </span>
   );

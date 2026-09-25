@@ -184,7 +184,7 @@ export function ChatWidget() {
         onClick={() => setIsOpen((o) => !o)}
         aria-label={isOpen ? "Close AI assistant" : "Open AI assistant"}
         aria-expanded={isOpen}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-terracotta text-paper flex items-center justify-center shadow-lg hover:bg-[#9e3d24] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2"
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-accent text-paper flex items-center justify-center shadow-lg hover:bg-[#5346dd] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
       >
         {isOpen ? (
           <svg
@@ -225,7 +225,7 @@ export function ChatWidget() {
                 onClick={() => switchMode(m.id)}
                 className={`flex-1 py-2.5 text-xs font-sans tracking-wide transition-colors ${
                   mode === m.id
-                    ? "text-terracotta border-b-2 border-terracotta"
+                    ? "text-accent border-b-2 border-accent"
                     : "text-ink-muted hover:text-ink"
                 }`}
               >
@@ -287,7 +287,7 @@ export function ChatWidget() {
             <div className="mx-4 mb-2 shrink-0">
               <button
                 onClick={copySpec}
-                className="w-full py-1.5 text-xs text-terracotta border border-terracotta/40 rounded hover:bg-terracotta/5 transition-colors"
+                className="w-full py-1.5 text-xs text-accent border border-accent/40 rounded hover:bg-accent/5 transition-colors"
               >
                 Copy spec
               </button>
@@ -308,12 +308,12 @@ export function ChatWidget() {
                     : currentMode.placeholder
                 }
                 disabled={loading}
-                className="flex-1 min-w-0 px-3 py-2 text-sm bg-paper border hairline rounded text-ink placeholder:text-ink-muted focus:outline-none focus:border-terracotta transition-colors disabled:opacity-50"
+                className="flex-1 min-w-0 px-3 py-2 text-sm bg-paper border hairline rounded text-ink placeholder:text-ink-muted focus:outline-none focus:border-accent transition-colors disabled:opacity-50"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || loading}
-                className="px-3 py-2 bg-terracotta text-paper text-sm rounded hover:bg-[#9e3d24] transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+                className="px-3 py-2 bg-accent text-paper text-sm rounded hover:bg-[#5346dd] transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
               >
                 →
               </button>

@@ -33,7 +33,7 @@ function ResourceCard({ r }: { r: Resource }) {
       href={r.url}
       target="_blank"
       rel="noreferrer"
-      className="group block border hairline px-5 py-4 hover:border-terracotta transition-colors"
+      className="group block border hairline px-5 py-4 hover:border-accent transition-colors"
     >
       <div className="flex items-start gap-3">
         <span className="text-lg leading-none mt-0.5" aria-hidden>
@@ -43,7 +43,7 @@ function ResourceCard({ r }: { r: Resource }) {
           <p className="text-xs uppercase tracking-wider text-ink-muted mb-1">
             {r.source} · {r.time}
           </p>
-          <p className="font-display text-lg text-ink group-hover:text-terracotta transition-colors leading-snug">
+          <p className="font-display text-lg text-ink group-hover:text-accent transition-colors leading-snug">
             {r.label} ↗
           </p>
           <p className="text-sm text-ink-soft mt-1 leading-relaxed">{r.blurb}</p>
@@ -88,7 +88,7 @@ export function ModuleList({ modules }: { modules: Module[] }) {
                 <span
                   className={
                     "font-display text-2xl sm:text-3xl tabular-nums shrink-0 transition-colors " +
-                    (isDone ? "text-ink-muted" : "text-terracotta")
+                    (isDone ? "text-ink-muted" : "text-accent")
                   }
                 >
                   {String(i + 1).padStart(2, "0")}
@@ -117,7 +117,7 @@ export function ModuleList({ modules }: { modules: Module[] }) {
                   <p className="mt-4">
                     <Link
                       href={`/work/${m.linkedProject.slug}`}
-                      className="inline-block text-sm italic font-display text-terracotta hover:underline underline-offset-2"
+                      className="inline-block text-sm text-accent hover:underline underline-offset-2"
                     >
                       → {m.linkedProject.label}
                     </Link>

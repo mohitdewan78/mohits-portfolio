@@ -25,7 +25,7 @@ export function useMDXComponents(
     a: ({ children, href }) => (
       <a
         href={href}
-        className="text-terracotta underline underline-offset-2 hover:no-underline"
+        className="text-accent underline underline-offset-2 hover:no-underline"
         target={href?.toString().startsWith("http") ? "_blank" : undefined}
         rel={href?.toString().startsWith("http") ? "noreferrer" : undefined}
       >
@@ -43,12 +43,12 @@ export function useMDXComponents(
       </ol>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="border-l-2 border-terracotta pl-6 my-8 font-display italic text-xl text-ink">
+      <blockquote className="border-l-2 border-accent pl-6 my-8 text-xl text-ink">
         {children}
       </blockquote>
     ),
     code: ({ children }) => (
-      <code className="bg-rule/40 px-1.5 py-0.5 rounded text-sm font-mono">
+      <code className="bg-surface border hairline text-accent px-1.5 py-0.5 rounded text-sm font-mono">
         {children}
       </code>
     ),

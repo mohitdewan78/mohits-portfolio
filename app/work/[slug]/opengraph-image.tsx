@@ -31,22 +31,22 @@ export default async function OgImage({
         style={{
           width: "100%",
           height: "100%",
-          background: "#faf7f0",
+          background: "#ffffff",
           padding: 72,
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          fontFamily: "Georgia, serif",
-          color: "#1c1a16",
+          fontFamily: "ui-sans-serif, system-ui, sans-serif",
+          color: "#061b31",
         }}
       >
         <div
           style={{
             fontSize: 22,
-            color: "#b5482a",
+            color: "#4338ca",
             textTransform: "uppercase",
             letterSpacing: 4,
-            fontStyle: "italic",
+            
             display: "flex",
           }}
         >
@@ -68,8 +68,8 @@ export default async function OgImage({
             <div
               style={{
                 fontSize: 32,
-                fontStyle: "italic",
-                color: "#4a463d",
+                
+                color: "#50617a",
                 lineHeight: 1.3,
                 display: "flex",
               }}
@@ -93,12 +93,12 @@ export default async function OgImage({
                 key={t}
                 style={{
                   display: "flex",
-                  border: "1px solid #d9d2c2",
+                  border: "1px solid #e3e8ee",
                   padding: "6px 12px",
                   textTransform: "uppercase",
                   letterSpacing: 2,
                   fontSize: 16,
-                  color: "#4a463d",
+                  color: "#50617a",
                   fontFamily: "ui-sans-serif, system-ui, sans-serif",
                 }}
               >
@@ -109,7 +109,7 @@ export default async function OgImage({
           <div
             style={{
               fontFamily: "ui-monospace, Menlo, monospace",
-              color: "#837d6f",
+              color: "#64748d",
               fontSize: 18,
               display: "flex",
             }}

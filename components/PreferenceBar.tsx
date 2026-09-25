@@ -16,7 +16,7 @@ export function PreferenceBar() {
       aria-label="Personalize the trail"
       className="border hairline bg-paper/40 px-5 py-5 sm:px-6 mb-12"
     >
-      <p className="font-display italic text-ink-muted text-sm mb-4">
+      <p className="text-ink-muted text-sm mb-4">
         Personalize the trail
         <span className="ml-2 text-xs not-italic font-sans">
           (saved locally, never sent anywhere)
@@ -89,7 +89,7 @@ function Pill({
         "text-sm px-3 py-1.5 border transition-colors " +
         (active
           ? "bg-ink text-paper border-ink"
-          : "border-rule text-ink-soft hover:border-terracotta hover:text-terracotta")
+          : "border-rule text-ink-soft hover:border-accent hover:text-accent")
       }
     >
       {children}

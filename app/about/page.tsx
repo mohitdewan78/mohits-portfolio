@@ -50,7 +50,7 @@ export default function AboutPage() {
 
         {/* Mobile: full header. Desktop: sticky sidebar. */}
         <header className="mb-12 lg:sticky lg:top-20 lg:mb-0">
-          <p className="font-display italic text-ink-muted mb-4 text-sm">
+          <p className="text-sm font-medium text-accent mb-4">
             About
           </p>
           <h1 className="font-display text-5xl sm:text-6xl lg:text-3xl tracking-tight leading-[1.05] lg:leading-[1.15]">
@@ -77,7 +77,7 @@ export default function AboutPage() {
             </p>
             <p>
               The trail on{" "}
-              <Link href="/learn" className="text-terracotta underline underline-offset-2 hover:no-underline">
+              <Link href="/learn" className="text-accent underline underline-offset-2 hover:no-underline">
                 /learn
               </Link>{" "}
               is the order I wish someone had walked me through. It&apos;s for the
@@ -98,14 +98,14 @@ export default function AboutPage() {
             <ol className="space-y-10">
               {projectReflections.map((p, i) => (
                 <li key={p.slug} className="grid grid-cols-[2rem_1fr] sm:grid-cols-[3rem_1fr] gap-4 sm:gap-8">
-                  <span className="font-display text-2xl text-terracotta tabular-nums">
+                  <span className="font-display text-2xl text-accent tabular-nums">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
                     <h3 className="font-display text-xl text-ink mb-2">
                       <Link
                         href={`/work/${p.slug}`}
-                        className="hover:text-terracotta transition-colors"
+                        className="hover:text-accent transition-colors"
                       >
                         {p.title} →
                       </Link>
@@ -132,7 +132,7 @@ export default function AboutPage() {
                   href={site.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-terracotta underline underline-offset-2 hover:no-underline"
+                  className="text-accent underline underline-offset-2 hover:no-underline"
                 >
                   LinkedIn ↗
                 </a>
@@ -142,7 +142,7 @@ export default function AboutPage() {
                   href={site.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-terracotta underline underline-offset-2 hover:no-underline"
+                  className="text-accent underline underline-offset-2 hover:no-underline"
                 >
                   GitHub ↗
                 </a>
@@ -150,7 +150,7 @@ export default function AboutPage() {
               <li>
                 <a
                   href={`mailto:${site.email}`}
-                  className="text-terracotta underline underline-offset-2 hover:no-underline"
+                  className="text-accent underline underline-offset-2 hover:no-underline"
                 >
                   Email ↗
                 </a>

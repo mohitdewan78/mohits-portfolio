@@ -48,7 +48,7 @@ export function TrailGuide() {
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-rule/20 transition-colors"
       >
-        <span className="font-display italic text-ink-soft text-sm">
+        <span className="text-ink-soft text-sm">
           Not sure where to start?
         </span>
         <span className="text-ink-muted text-sm ml-2">{open ? "↑" : "↓"}</span>
@@ -67,7 +67,7 @@ export function TrailGuide() {
                 onChange={(e) => setGoal(e.target.value)}
                 placeholder="e.g. Build a tool that helps me review PRs faster"
                 disabled={loading}
-                className="w-full px-3 py-2 text-sm bg-paper border hairline rounded text-ink placeholder:text-ink-muted focus:outline-none focus:border-terracotta transition-colors disabled:opacity-50"
+                className="w-full px-3 py-2 text-sm bg-paper border hairline rounded text-ink placeholder:text-ink-muted focus:outline-none focus:border-accent transition-colors disabled:opacity-50"
               />
             </div>
             <div>
@@ -80,13 +80,13 @@ export function TrailGuide() {
                 onChange={(e) => setBackground(e.target.value)}
                 placeholder="e.g. Engineer, never shipped an AI feature"
                 disabled={loading}
-                className="w-full px-3 py-2 text-sm bg-paper border hairline rounded text-ink placeholder:text-ink-muted focus:outline-none focus:border-terracotta transition-colors disabled:opacity-50"
+                className="w-full px-3 py-2 text-sm bg-paper border hairline rounded text-ink placeholder:text-ink-muted focus:outline-none focus:border-accent transition-colors disabled:opacity-50"
               />
             </div>
             <button
               type="submit"
               disabled={!goal.trim() || loading}
-              className="px-4 py-2 bg-terracotta text-paper text-sm rounded hover:bg-[#9e3d24] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-accent text-paper text-sm rounded hover:bg-[#5346dd] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {loading ? "Finding your path…" : "Recommend a path →"}
             </button>
