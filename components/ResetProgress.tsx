@@ -21,7 +21,7 @@ export function ResetProgress() {
           reset();
         }
       }}
-      className="text-xs uppercase tracking-wider text-ink-muted hover:text-terracotta underline underline-offset-2"
+      className="text-xs uppercase tracking-wider text-ink-muted hover:text-accent underline underline-offset-2"
     >
       Reset preferences & progress
     </button>

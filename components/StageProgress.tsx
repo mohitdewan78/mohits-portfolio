@@ -22,7 +22,7 @@ export function StageProgress({
       <span className="inline-flex items-center gap-2 text-xs text-ink-muted">
         <span className="w-16 h-1 bg-rule/60 relative overflow-hidden">
           <span
-            className="absolute inset-y-0 left-0 bg-terracotta transition-[width]"
+            className="absolute inset-y-0 left-0 bg-accent transition-[width]"
             style={{ width: `${pct}%` }}
           />
         </span>
@@ -39,13 +39,13 @@ export function StageProgress({
         <p className="text-xs uppercase tracking-wider text-ink-muted">
           Your progress
         </p>
-        <p className="text-sm font-display italic text-ink-soft tabular-nums">
+        <p className="text-sm text-ink-soft tabular-nums">
           {done} of {total} modules done
         </p>
       </div>
       <div className="w-full h-1.5 bg-rule/60 relative overflow-hidden">
         <div
-          className="absolute inset-y-0 left-0 bg-terracotta transition-[width]"
+          className="absolute inset-y-0 left-0 bg-accent transition-[width]"
           style={{ width: `${pct}%` }}
         />
       </div>

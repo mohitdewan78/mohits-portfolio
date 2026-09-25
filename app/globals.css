@@ -1,49 +1,70 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Palette. Structure and neutrals are sampled from stripe.com's computed
+   styles; the accent and gradient ramp are ours ("Tidepool").
+
+   Token names are deliberately unchanged from the old warm-paper system
+   (`paper` = background, `ink` = foreground, `terracotta` = accent) so the
+   ~45 existing call sites keep working. `terracotta` is now an alias for
+   `accent` — rename it in a separate pass, not here.
+   --------------------------------------------------------------------------- */
 :root {
-  --color-paper: #faf7f0;
-  --color-ink: #1c1a16;
-  --color-ink-soft: #4a463d;
-  --color-ink-muted: #837d6f;
-  --color-terracotta: #b5482a;
-  --color-teal: #2d5d57;
-  --color-rule: #d9d2c2;
+  --color-paper: #ffffff;
+  --color-surface: #f6f9fc;
+  --color-ink: #061b31;
+  --color-ink-soft: #50617a;
+  --color-ink-muted: #64748d;
+  --color-rule: #e3e8ee;
+
+  --color-accent: #4338ca;
+  --color-accent-hover: #5346dd;
+  --color-terracotta: #4338ca;
+
+  /* accent as raw channels, for shadow/tint alphas */
+  --accent-rgb: 67, 56, 202;
 }
 
 @theme inline {
   --color-paper: var(--color-paper);
+  --color-surface: var(--color-surface);
   --color-ink: var(--color-ink);
   --color-ink-soft: var(--color-ink-soft);
   --color-ink-muted: var(--color-ink-muted);
-  --color-terracotta: var(--color-terracotta);
-  --color-teal: var(--color-teal);
   --color-rule: var(--color-rule);
-  --font-display: var(--font-fraunces);
-  --font-sans: var(--font-hanken);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-terracotta: var(--color-terracotta);
+  --font-display: var(--font-inter);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
-  --font-brand: var(--font-bricolage);
-  --font-signature: var(--font-caveat);
 }
 
 html {
+  color-scheme: light;
   background: var(--color-paper);
   color: var(--color-ink);
-  font-family: var(--font-hanken), system-ui, sans-serif;
-}
-
-body {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.11  0 0 0 0 0.10  0 0 0 0 0.09  0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  background-repeat: repeat;
-  background-size: 160px 160px;
+  font-family: var(--font-inter), system-ui, sans-serif;
 }
 
 ::selection {
-  background: var(--color-terracotta);
-  color: var(--color-paper);
+  background: var(--color-accent);
+  color: #fff;
 }
 
+/* Family + tracking only — no font-weight, so Tailwind's `font-light`
+   / `font-semibold` utilities still win at the call site. */
 .font-display {
-  font-family: var(--font-fraunces), Georgia, serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Small uppercase mono label — eyebrows, numerals, tags. */
+.label-mono {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .hairline {
@@ -51,7 +72,7 @@ body {
 }
 
 /* ---------------------------------------------------------------------------
-   Reveal animations (Phase 7)
+   Reveal animations
 
    The <html> element gets the `.animate` class via an inline script in the
    layout head BEFORE first paint, but only when the user has not requested
@@ -73,22 +94,6 @@ body {
   transform: translateY(0);
 }
 
-/* Caveat wordmark — writes in on first paint via clip-path. One-shot. */
-.animate .wordmark-write-in {
-  animation: wordmark-writes-in 900ms cubic-bezier(0.2, 0.6, 0.2, 1) both;
-}
-
-@keyframes wordmark-writes-in {
-  from {
-    clip-path: inset(0 100% 0 0);
-    opacity: 0.6;
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-    opacity: 1;
-  }
-}
-
 /* Mermaid diagrams — paths animate in via JS-set stroke-dashoffset.
    Keep the transition CSS-side so JS only flips one property. */
 .animate .reveal-mermaid svg path,
@@ -98,84 +103,50 @@ body {
   transition: stroke-dashoffset 1600ms cubic-bezier(0.2, 0.6, 0.2, 1);
 }
 
-/* Hero ribbon (Phase 8) — flowing organic loop.
-   - A single bright terracotta current flows clockwise around the ribbon
-     (this is the actual order of the loop: discover → prototype → eval → ship).
-   - The base track gently pulses in opacity.
-   - Four milestone embers each breathe independently on their own timer.
-   - Whole composition slowly drifts for ambient life. */
-.animate .hero-ribbon .ribbon-current {
-  animation: ribbon-flow 7s linear infinite;
-}
-@keyframes ribbon-flow {
-  to {
-    /* Path circumference: 2π × 110 ≈ 691. One dashoffset cycle = one
-       full revolution of the loop. */
-    stroke-dashoffset: -691;
-  }
+/* ---------------------------------------------------------------------------
+   Hero fibre fan (components/HeroFan.tsx)
+
+   Two counter-rotating layers of filaments about a convergence point. The
+   colour cycle repeats every FAN_PERIOD degrees and each layer is built that
+   much wider than the visible window, so rotating by exactly one period lands
+   on an identical frame — the flow loops with no seam and never reverses.
+   Keep these durations in sync with FAN_PERIOD in HeroFan.tsx.
+   --------------------------------------------------------------------------- */
+/* Fades hard toward the text side so headlines and nav stay legible, while
+   the outer corner keeps full saturation. */
+.hero-fan {
+  -webkit-mask-image: radial-gradient(72% 74% at 82% 44%, #000 26%, transparent 76%);
+  mask-image: radial-gradient(72% 74% at 82% 44%, #000 26%, transparent 76%);
 }
 
-.animate .hero-ribbon .ribbon-base {
-  animation: ribbon-base-pulse 9s ease-in-out infinite;
-}
-@keyframes ribbon-base-pulse {
-  0%, 100% { stroke-opacity: 0.18; }
-  50%      { stroke-opacity: 0.34; }
+.fan-layer {
+  transform-box: view-box;
+  will-change: transform;
 }
 
-.animate .hero-ribbon .ribbon-milestone {
-  animation-name: ribbon-ember-breath;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-fill-mode: both;
-  /* duration + delay come from inline style per-milestone */
+.animate .fan-a {
+  animation: fan-flow-a 26s linear infinite;
 }
-@keyframes ribbon-ember-breath {
-  0%, 100% {
-    opacity: 0.78;
-    transform: scale(0.95);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.06);
-  }
+.animate .fan-b {
+  animation: fan-flow-b 41s linear infinite;
 }
 
-/* Whole composition slow drift */
-.animate .hero-ribbon svg {
-  animation: ribbon-drift 16s ease-in-out infinite;
-  transform-origin: 220px 170px;
+@keyframes fan-flow-a {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(60deg); }
 }
-@keyframes ribbon-drift {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-4px) rotate(-0.5deg);
-  }
-}
-
-.hero-ribbon .ribbon-label {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-size: 15px;
-  font-weight: 700;
-  font-style: italic;
-  fill: var(--color-ink);
-  letter-spacing: 0.01em;
+@keyframes fan-flow-b {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-60deg); }
 }
 
 /* Safety net: if reduce-motion overrides slip through, nuke all motion. */
 @media (prefers-reduced-motion: reduce) {
   .reveal,
-  .wordmark-write-in,
   .reveal-mermaid svg path,
   .reveal-mermaid svg line,
   .reveal-mermaid svg polyline,
-  .reveal-mermaid svg polygon,
-  .hero-ribbon svg,
-  .hero-ribbon .ribbon-base,
-  .hero-ribbon .ribbon-current,
-  .hero-ribbon .ribbon-milestone {
+  .reveal-mermaid svg polygon {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
@@ -183,5 +154,11 @@ body {
     stroke-dasharray: none !important;
     stroke-dashoffset: 0 !important;
     clip-path: none !important;
+  }
+  /* The fan only needs its motion stopped — its per-layer opacity is part of
+     the composition, not the animation, so don't force it to 1 here. */
+  .fan-layer {
+    animation: none !important;
+    transform: none !important;
   }
 }

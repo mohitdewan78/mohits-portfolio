@@ -6,6 +6,11 @@ export const site = {
   positioningLine:
     "Personal AI projects, and the playbook for building your own.",
 
+  // The hero renders the line two-tone: lead clause in ink, rest in muted.
+  // Kept as separate fields so the split point stays an editorial choice.
+  positioningLead: "Personal AI projects,",
+  positioningRest: "and the playbook for building your own.",
+
   positioningSub:
     "Shipping AI is cheap. Shipping the right AI is the work — picking real problems, designing for the human first, and measuring whether the product earned its place.",
 

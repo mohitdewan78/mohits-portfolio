@@ -5,7 +5,7 @@ export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
 /**
- * Favicon: terracotta 'M' on the paper background.
+ * Favicon: accent 'M' on the paper background.
  * Tiny editorial mark — matches the site's accent + bg tokens.
  */
 export default function Icon() {
@@ -15,14 +15,14 @@ export default function Icon() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#faf7f0",
-          color: "#b5482a",
+          background: "#ffffff",
+          color: "#4338ca",
           fontSize: 24,
           fontWeight: 700,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontFamily: "Georgia, serif",
+          fontFamily: "ui-sans-serif, system-ui, sans-serif",
         }}
       >
         M

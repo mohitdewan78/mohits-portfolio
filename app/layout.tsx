@@ -1,11 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Fraunces,
-  Hanken_Grotesk,
-  JetBrains_Mono,
-  Bricolage_Grotesque,
-  Caveat,
-} from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Nav } from "@/components/Nav";
@@ -13,15 +7,8 @@ import { Footer } from "@/components/Footer";
 import { ChatWidget } from "@/components/ChatWidget";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  axes: ["opsz", "SOFT"],
-  display: "swap",
-});
-
-const hanken = Hanken_Grotesk({
-  variable: "--font-hanken",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
@@ -30,19 +17,6 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   display: "swap",
-});
-
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const caveat = Caveat({
-  variable: "--font-caveat",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -61,7 +35,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${hanken.variable} ${jetbrainsMono.variable} ${bricolage.variable} ${caveat.variable} h-full antialiased`}
+      // The pre-paint script below adds `.animate` before React hydrates, so
+      // the server and client className necessarily differ.
+      suppressHydrationWarning
+      className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <head>
         {/* Add .animate to <html> before first paint when the user hasn't

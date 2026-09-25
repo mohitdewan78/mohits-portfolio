@@ -13,8 +13,8 @@ export function ModuleCheckbox({ moduleId }: { moduleId: string }) {
         className={
           "inline-block h-5 w-5 border-2 transition-colors " +
           (checked
-            ? "bg-terracotta border-terracotta"
-            : "border-ink-muted group-hover:border-terracotta")
+            ? "bg-accent border-accent"
+            : "border-ink-muted group-hover:border-accent")
         }
       >
         {checked && (

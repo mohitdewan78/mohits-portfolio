@@ -41,7 +41,7 @@ export function ModuleTldr({ moduleId }: { moduleId: string }) {
     return (
       <button
         onClick={load}
-        className="text-xs italic font-display text-terracotta hover:underline underline-offset-2 mt-3 block"
+        className="text-xs text-accent hover:underline underline-offset-2 mt-3 block"
       >
         → Where to start?
       </button>
@@ -49,7 +49,7 @@ export function ModuleTldr({ moduleId }: { moduleId: string }) {
   }
 
   return (
-    <p className="mt-3 text-sm text-ink-soft font-display italic leading-relaxed">
+    <p className="mt-3 text-sm text-ink-soft leading-relaxed">
       {loading && !text ? (
         <span className="animate-pulse text-ink-muted">Finding the best first resource…</span>
       ) : (

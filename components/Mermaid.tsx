@@ -13,7 +13,7 @@ type Props = {
  * Client-side Mermaid renderer.
  *
  * Lazy-loads the mermaid package only on pages that use it, and themes it
- * to match the editorial palette (terracotta accent, paper bg, ink stroke,
+ * to match the editorial palette (accent accent, paper bg, ink stroke,
  * Fraunces serif for node labels).
  */
 export function Mermaid({ chart, caption }: Props) {
@@ -37,21 +37,21 @@ export function Mermaid({ chart, caption }: Props) {
           fontFamily: "var(--font-fraunces), Georgia, serif",
           themeVariables: {
             // Nodes: warm sand — clearly visible against the paper background
-            background: "#faf7f0",
-            primaryColor: "#e8dfd0",
-            primaryTextColor: "#1c1a16",
-            primaryBorderColor: "#6b5040",
-            mainBkg: "#e8dfd0",
+            background: "#ffffff",
+            primaryColor: "#e8edfa",
+            primaryTextColor: "#061b31",
+            primaryBorderColor: "#4338ca",
+            mainBkg: "#e8edfa",
             // Edges and labels
-            lineColor: "#6b5040",
-            edgeLabelBackground: "#faf7f0",
+            lineColor: "#4338ca",
+            edgeLabelBackground: "#ffffff",
             // Subgraphs: one shade darker than nodes
-            secondaryColor: "#ddd4c2",
-            tertiaryColor: "#f0ebe0",
-            clusterBkg: "#ddd4c2",
-            clusterBorder: "#6b5040",
+            secondaryColor: "#dbe3f5",
+            tertiaryColor: "#f6f9fc",
+            clusterBkg: "#dbe3f5",
+            clusterBorder: "#4338ca",
             // Terracotta accent (use :::accent after a node id in the chart)
-            cScale0: "#b5482a",
+            cScale0: "#4338ca",
           },
           flowchart: {
             htmlLabels: true,
@@ -126,7 +126,7 @@ export function Mermaid({ chart, caption }: Props) {
 
   if (error) {
     return (
-      <div className="my-8 p-4 border border-terracotta/40 text-sm text-terracotta">
+      <div className="my-8 p-4 border border-accent/40 text-sm text-accent">
         Mermaid render failed: {error}
       </div>
     );
@@ -141,7 +141,7 @@ export function Mermaid({ chart, caption }: Props) {
         dangerouslySetInnerHTML={{ __html: svg }}
       />
       {caption && (
-        <figcaption className="mt-3 text-center text-sm italic font-display text-ink-muted">
+        <figcaption className="mt-3 text-center text-sm text-ink-muted">
           {caption}
         </figcaption>
       )}

@@ -16,7 +16,7 @@ export function MatchedOnlyToggle() {
     >
       <input
         type="checkbox"
-        className="h-4 w-4 accent-terracotta"
+        className="h-4 w-4 accent-accent"
         checked={matchedOnly}
         disabled={disabled}
         onChange={(e) => setMatchedOnly(e.target.checked)}

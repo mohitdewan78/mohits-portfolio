@@ -18,7 +18,7 @@ export default async function WorkIndex() {
 
         {/* Mobile: full header. Desktop: sticky sidebar. */}
         <header className="mb-12 lg:sticky lg:top-20 lg:mb-0">
-          <p className="font-display italic text-ink-muted mb-4 text-sm">
+          <p className="text-sm font-medium text-accent mb-4">
             Field notes from building
           </p>
           <h1 className="font-display text-5xl sm:text-6xl lg:text-3xl tracking-tight leading-[1.05] lg:leading-[1.15]">
@@ -44,7 +44,7 @@ export default async function WorkIndex() {
                 className="group block"
               >
                 <div className="flex items-baseline justify-between gap-6 mb-3">
-                  <h2 className="font-display text-2xl sm:text-3xl tracking-tight text-ink group-hover:text-terracotta transition-colors">
+                  <h2 className="font-display text-2xl sm:text-3xl tracking-tight text-ink group-hover:text-accent transition-colors">
                     {item.title}
                   </h2>
                   {item.status === "in-progress" && (
@@ -53,7 +53,7 @@ export default async function WorkIndex() {
                     </span>
                   )}
                 </div>
-                <p className="font-display italic text-ink-soft text-lg leading-snug">
+                <p className="text-ink-soft text-lg leading-snug">
                   {item.hook}
                 </p>
                 <p className="mt-3 text-ink-soft leading-relaxed">
